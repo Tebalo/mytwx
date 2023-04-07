@@ -14,4 +14,9 @@ const TopNavigation = () => {
         </div>
     );
 }
+
+const ThemeIcon = () => {
+    const [darkTheme, setDarkTheme] = useDarkMode();
+    
+}
 export default TopNavigation;
