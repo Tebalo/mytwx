@@ -59,7 +59,7 @@
   }
 
   .content-container {
-    @apply flex flex-col bg-gray-300 dark: bg-gray-700 m-0 h-full w-full overflow-hidden;
+    @apply flex flex-col bg-gray-300 dark:bg-gray-700 m-0 h-full w-full overflow-hidden;
   }
 
   .content-list {
@@ -79,11 +79,11 @@
   }
 
   .post-text {
-    @apply text-lg text-left text-gray-800 dark: text-white mr-auto whitespace-normal;
+    @apply text-lg text-left text-gray-800 dark:text-white mr-auto whitespace-normal;
   }
 
   .post-owner {
-    @apply text-left font-semibold text-gray-800 dark: text-white mr-2 cursor-pointer;
+    @apply text-left font-semibold text-gray-800 dark:text-white mr-2 cursor-pointer;
   }
 
   .avatar-wrapper {
@@ -95,11 +95,11 @@
   }
 
   .timestamp {
-    @apply text-xs text-left font-semibold text-gray-500 dark: text-gray-600 ml-2;
+    @apply text-xs text-left font-semibold text-gray-500 dark:text-gray-600 ml-2;
   }
 
   .bottom-bar {
-    @apply flex flex-row items-center justify-between fixed left-88 right-8 bottom-2 rounded-lg shadow-lg bg-gray-400 dark: bg-gray-600 px-2 h-12;
+    @apply flex flex-row items-center justify-between fixed left-88 right-8 bottom-2 rounded-lg shadow-lg bg-gray-400 dark:bg-gray-600 px-2 h-12;
   }
 
   .bottom-bar-input {
