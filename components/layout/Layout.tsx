@@ -5,7 +5,8 @@ import { faHandHolding, faComment, faUserGraduate, faPlus, faHome } from '@forta
 import {ReactNode} from 'react';
 import * as React from 'react';
 import SideBar from "./SideBar";
-
+import ChannelBar from "./ChannelBar";
+import ContentContainer from "./ContentContainer";
 interface LayoutProps{
     children: ReactNode;
 }
@@ -18,9 +19,8 @@ export default function Layout({children}:LayoutProps){
                     <title>Course Finder</title>
                 </Head>
                 <SideBar/>
-                <main>
-                    {children}
-                </main>
+                <ChannelBar/>
+                {children}
             </div>
         </>
     );

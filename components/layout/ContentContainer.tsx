@@ -1,4 +1,4 @@
-import TopNavigation from '../TopNavigation';
+import TopNavigation from './TopNavigation';
 import { BsPlusCircleFill } from 'react-icons/bs';
 // import { useState } from 'react';
 
@@ -71,8 +71,12 @@ const BottomBar = () => (
         <input type='text' placeholder='Enter message...' className='bottom-bar-input' />
     </div>
 );
-
-const Post = ({ name, timestamp, text }) => {
+interface PostProps{
+    name:string;
+    timestamp:string;
+    text:string;
+}
+const Post = ({ name, timestamp, text }:PostProps) => {
 
     const seed = Math.round(Math.random() * 100);
     return (

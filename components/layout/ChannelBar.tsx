@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BsHash } from 'react-icons/bs';
 import { FaChevronDown, FaChevronRight, FaPlus } from 'react-icons/fa';
 
-const topics = ['tailwind-css', 'react'];
-const questions = ['jit-compilation', 'purge-files', 'dark-mode'];
-const random = ['variants', 'plugins'];
+const topics = ['Online-application', 'Top-offers'];
+const questions = ['How-to-apply?', 'What-are-the-requirements?', 'Common-misconceptions'];
+const random = ['Student-center', 'Library'];
 
 const ChannelBar = () => {
     return (
@@ -18,8 +18,11 @@ const ChannelBar = () => {
         </div>
     );
 };
-
-const Dropdown = ({ header, selections }) => {
+interface DropDownProps{
+    header:string;
+    selections:Array<string>;
+}
+const Dropdown = ({ header, selections }:DropDownProps) => {
     const [expanded, setExpanded] = useState(true);
 
     return (
@@ -39,8 +42,10 @@ const Dropdown = ({ header, selections }) => {
         </div>
     );
 };
-
-const ChevronIcon = ({ expanded }) => {
+interface ChevronIconProps{
+    expanded: React.ReactNode;
+}
+const ChevronIcon = ({ expanded }:ChevronIconProps) => {
     const chevClass = 'text-accent text-opacity-80 my-auto mr-1';
     return expanded ? (
         <FaChevronDown size='14' className={chevClass} />
@@ -48,8 +53,10 @@ const ChevronIcon = ({ expanded }) => {
         <FaChevronRight size='14' className={chevClass} />
     );
 };
-
-const TopicSelection = ({ selection }) => (
+interface TopicSelectionProps{
+    selection:string;
+}
+const TopicSelection = ({ selection }:TopicSelectionProps) => (
     <div className='dropdown-selection'>
         <BsHash size='24' className='text-gray-400' />
         <h5 className='dropdown-selection-text'>{selection}</h5>
