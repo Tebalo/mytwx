@@ -10,7 +10,13 @@
   margin: 0;
   padding: 0;
 }
-
+.card{
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 @layer components {
   .sidebar-icon{
     @apply relative flex items-center justify-center 

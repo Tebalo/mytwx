@@ -65,7 +65,7 @@ const TopicSelection = ({ selection }:TopicSelectionProps) => (
 
 const ChannelBlock = () => (
     <div className='channel-block'>
-        <h5 className='channel-block-text'>Channels</h5>
+        <h5 className='channel-block-text'>Knowledge Articles</h5>
     </div>
 );
 
