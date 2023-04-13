@@ -14,7 +14,7 @@ const SideBar = () => {
             <SideBarIcon icon={<RiHome4Fill size="28"/> } text={'Home'} onClick={() => handleClick('/')}/>
             <Divider/>
             <SideBarIcon icon={<BsPlus size="32"/>} text={'Create'} onClick={() => handleClick('/Collect')}/>
-            <SideBarIcon icon={<FaBookReader size="25"/>} text={'Programmes'} onClick={() => handleClick('/')}/>
+            <SideBarIcon icon={<FaBookReader size="25"/>} text={'Programmes'} onClick={() => handleClick('/Programmes')}/>
             <SideBarIcon icon={<FaHandHoldingWater size="25"/>} text={'Offers'} onClick={() => handleClick('/')}/>
             <SideBarIcon icon={<RiChat1Fill size="28"/>} text={'Chat'} onClick={() => handleClick('/chat')}/>
             <Divider/>
