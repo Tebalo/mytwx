@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle login logic here
+
   };
 
   return (
@@ -28,11 +30,11 @@ const LoginPage = () => {
               Email Address
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={handleUsernameChange}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
@@ -71,7 +73,7 @@ const LoginPage = () => {
         </form>
         <p className="mt-4 text-sm">
           Don't have an account?{' '}
-          <Link href="/register" className="text-purple-600 hover:text-purple-700">
+          <Link href="/Signup" className="text-purple-600 hover:text-purple-700">
             Sign up
           </Link>
         </p>
