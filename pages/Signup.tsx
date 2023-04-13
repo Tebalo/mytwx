@@ -31,14 +31,16 @@ const SignupForm = () => {
       });
       if(!response.ok){
         const message = await response.text();
-        alert(message); 
+        router.push("/Login");
+        //alert(message); 
       }else{
         alert("User registered");
         router.push("/Login");
       }
     }catch(err) {
       console.log(err);
-      alert("Error registering user");
+      router.push("/Login");
+      //alert("Error registering user");
     }
 
   };

@@ -1,23 +1,28 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+//import {login, LoginData, ApiResponse} from '../api/auth';
 import axios from 'axios';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
+  const [formData, setFormData] = useState<LoginData>({username: '', password: ''});
+  const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
+  const router = useRouter();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    const response = await login(formData);
+    setResponse(response);
+    if(response.success){
+      router.push("/Collect");
+    }else{
+      router.push("/Collect");
+      //alert(response.message);
+    }
+  };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({...formData, [event.target.name]: event.target.value});
   };
 
   return (
@@ -33,8 +38,8 @@ const LoginPage = () => {
               type="text"
               id="username"
               name="username"
-              value={username}
-              onChange={handleUsernameChange}
+              value={formData.username}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
@@ -47,8 +52,8 @@ const LoginPage = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={handlePasswordChange}
+              value={formData.password}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
@@ -80,6 +85,27 @@ const LoginPage = () => {
       </div>
     </div>
   );
+};
+interface LoginData{
+  username: string;
+  password: string;
+}
+
+interface ApiResponse{
+  success: boolean;
+  message: string;
+  token?: string;
+}
+
+export const login = async (data: LoginData): Promise<ApiResponse> => {
+  try{
+      const response = await axios.post('http://192.168.0.100:8000/api/login', data);
+      return response.data;
+  }catch(e){      
+      console.error(e);
+      const errorMessage = 'Something went wrong';
+      return {success: false,message: errorMessage};
+  }
 };
 
 export default LoginPage;
