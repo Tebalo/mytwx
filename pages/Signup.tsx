@@ -1,28 +1,54 @@
 import { useState } from "react";
+import {useRouter} from "next/router";
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [otherValue, setOtherValue] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
   
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const username = firstName;
-    const response = await fetch("http://192.168.0.100/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, username, password}),
-    });
+    if(password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    try{
+      const response = await fetch("http://192.168.0.100:8000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          email: email,
+          username: username,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+        }),
+      });
+      if(!response.ok){
+        const message = await response.text();
+        router.push("/Login");
+        //alert(message); 
+      }else{
+        alert("User registered");
+        router.push("/Login");
+      }
+    }catch(err) {
+      console.log(err);
+      router.push("/Login");
+      //alert("Error registering user");
+    }
 
-    const data = await response.json();
-
-    console.log(data);
   };
 
   return (
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="w-full px-4 py-8 mx-auto max-w-md">
+    <h1 className="text-3xl font-bold mb-4">Registration</h1>
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
@@ -64,6 +90,20 @@ const SignupForm = () => {
         />
       </div>
       <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
+          User Name
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="username"
+          type="text"
+          placeholder="User Name"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+ 
+      <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
           Password
         </label>
@@ -78,26 +118,28 @@ const SignupForm = () => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherValue">
-          Other Value
+          Confirm Password
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="otherValue"
-          type="text"
-          placeholder="Other Value"
-          value={otherValue}
-          onChange={(e) => setOtherValue(e.target.value)}
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           />
           </div>
           <div className="flex items-center justify-between">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Sign Up
+          <button
+            type="submit"
+            className="w-full px-4 py-2 text-lg font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+          >
+              Sign up
             </button>
           </div>
         </form>
+        </div>
+    </div>
       );
     };
     

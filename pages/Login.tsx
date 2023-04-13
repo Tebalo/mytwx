@@ -1,21 +1,28 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+//import {login, LoginData, ApiResponse} from '../api/auth';
+import axios from 'axios';
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState<LoginData>({username: '', password: ''});
+  const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
+  const router = useRouter();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle login logic here
+    const response = await login(formData);
+    setResponse(response);
+    if(response.success){
+      router.push("/Collect");
+    }else{
+      router.push("/Collect");
+      //alert(response.message);
+    }
+  };
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({...formData, [event.target.name]: event.target.value});
   };
 
   return (
@@ -28,11 +35,11 @@ const LoginPage = () => {
               Email Address
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={handleEmailChange}
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
@@ -45,8 +52,8 @@ const LoginPage = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={handlePasswordChange}
+              value={formData.password}
+              onChange={handleInputChange}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
@@ -71,13 +78,34 @@ const LoginPage = () => {
         </form>
         <p className="mt-4 text-sm">
           Don't have an account?{' '}
-          <Link href="/register" className="text-purple-600 hover:text-purple-700">
+          <Link href="/Signup" className="text-purple-600 hover:text-purple-700">
             Sign up
           </Link>
         </p>
       </div>
     </div>
   );
+};
+interface LoginData{
+  username: string;
+  password: string;
+}
+
+interface ApiResponse{
+  success: boolean;
+  message: string;
+  token?: string;
+}
+
+export const login = async (data: LoginData): Promise<ApiResponse> => {
+  try{
+      const response = await axios.post('http://192.168.0.100:8000/api/login', data);
+      return response.data;
+  }catch(e){      
+      console.error(e);
+      const errorMessage = 'Something went wrong';
+      return {success: false,message: errorMessage};
+  }
 };
 
 export default LoginPage;
