@@ -72,6 +72,7 @@ CORS_ALLOWED_ORIGINS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'bec',
     'programmes',
     'users',
     'corsheaders',
