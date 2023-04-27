@@ -12,13 +12,16 @@ const LoginPage = () => {
   const router = useRouter();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    //alert(formData.password)
     const response = await login(formData);
-    setResponse(response);
+    //setResponse(response);
+  
     if(response.success){
-      router.push("/Collect");
+      alert(response.message);
+      //router.push("/Collect");
     }else{
-      router.push("/Collect");
-      //alert(response.message);
+      //router.push("/Collect");
+      alert(response.message);
     }
   };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,11 +102,12 @@ interface ApiResponse{
 
 export const login = async (data: LoginData): Promise<ApiResponse> => {
   try{
-      const response = await axios.post('http://192.168.0.100:8000/api/login', data);
-      return response.data;
+    //alert(data)
+      const response = await axios.post('http://127.0.0.1:8000/api/token/', data);
+      return response.status === 200 ? {success: true, message: 'Login successful', token: response.data.access} : {success: false, message: 'Login failed'};
   }catch(e){      
       console.error(e);
-      const errorMessage = 'Something went wrong';
+      const errorMessage = 'Login failed';
       return {success: false,message: errorMessage};
   }
 };

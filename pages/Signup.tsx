@@ -8,6 +8,14 @@ const SignupForm = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [centerNumber, setCenterNumber] = useState("");
+  const [candidateNumber, setCandidateNumber] = useState("");
+  const [coursePreferences, setCoursePreferences] = useState("");
+  const [highestQualification, setHighestQualification] = useState("");
+  const [qualificationYear, setQualificationYear] = useState("");
+  const [nationalID, setNationalID] = useState("");
+  const [otherQualifications, setOtherQualifications] = useState("");
   const router = useRouter();
   
 
@@ -18,20 +26,29 @@ const SignupForm = () => {
       return;
     }
     try{
-      const response = await fetch("http://192.168.0.100:8000/api/register", {
+      const response = await fetch("http://127.0.0.1:8000/api/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           email: email,
           username: username,
           password: password,
-          firstName: firstName,
-          lastName: lastName,
+          first_name: firstName,
+          last_name: lastName,
+          birth_date: birthDate,
+          center_number: centerNumber,
+          candidate_number: candidateNumber,
+          course_preferences: coursePreferences,
+          highest_qualification: highestQualification,
+          highest_qualification_year: qualificationYear,
+          national_id: nationalID,
+          languages: "English",
+          other_qualifications: otherQualifications,
         }),
       });
       if(!response.ok){
         const message = await response.text();
-        router.push("/Login");
+        //router.push("/Login");
         //alert(message); 
       }else{
         alert("User registered");
@@ -39,8 +56,8 @@ const SignupForm = () => {
       }
     }catch(err) {
       console.log(err);
-      router.push("/Login");
-      //alert("Error registering user");
+      //router.push("/Login");
+      alert("Error registering user");
     }
 
   };
@@ -139,29 +156,31 @@ const SignupForm = () => {
 
       <div className="flex pr-4">
       <div className="mb-4 mr-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-          Birth Date
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="birthDate">
+        Birth Date
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          id="birthDate"
+          type="date"
+          placeholder="Birth Date"
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
         />
       </div>
+
+
       <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
-          Candidate number
+          Candidate Number
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="firstName"
+          id="candidateNumber"
           type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="Candidate Number"
+          value={candidateNumber}
+          onChange={(e) => setCandidateNumber(e.target.value)}
         />
       </div>
       <div className="mb-4 mr-4">
@@ -170,29 +189,29 @@ const SignupForm = () => {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="lastName"
+          id="centerNumber"
           type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Center Number"
+          value={centerNumber}
+          onChange={(e) => setCenterNumber(e.target.value)}
         />
       </div>
       </div>
 
       <div className="flex pr-4">
       <div className="mb-4 mr-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
-          Course preferences
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="username"
-          type="text"
-          placeholder="User Name"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="coursePreferences">
+             Course Preferences
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="coursePreferences"  
+            placeholder="Course Preferences"
+            value={coursePreferences}
+            onChange={(e) => setCoursePreferences(e.target.value)}
+          />
       </div>
+
  
       <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -200,11 +219,11 @@ const SignupForm = () => {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          id="highestQualification"
+          type="text"
+          placeholder="Highest qualification"
+          value={highestQualification}
+          onChange={(e) => setHighestQualification(e.target.value)}
         />
       </div>
       <div className="mb-4 mr-4">
@@ -213,15 +232,15 @@ const SignupForm = () => {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          id="qualificationYear"
+          type="text"
+          placeholder="Qualification year"
+          value={qualificationYear}
+          onChange={(e) => setQualificationYear(e.target.value)}
           />
           </div>
           </div>
-          
+
         <div className="flex">
         <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherValue">
@@ -229,11 +248,24 @@ const SignupForm = () => {
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="confirmPassword"
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          id="nationalID"
+          type="text"
+          placeholder="National ID"
+          value={nationalID}
+          onChange={(e) => setNationalID(e.target.value)}
+          />
+          </div>
+          <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherValue">
+          Other Qualifications
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="OtherQualifications"
+          type="text"
+          placeholder="Other Qualifications"
+          value={otherQualifications}
+          onChange={(e) => setOtherQualifications(e.target.value)}
           />
           </div>
           </div>
