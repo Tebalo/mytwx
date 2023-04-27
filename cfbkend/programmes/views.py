@@ -6,8 +6,54 @@ from .serializers import ProgrammeSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Programme
+from .models import Application
+from .serializers import ApplicationSerializer
+from .serializers import OfferSerializer
+from .models import Offer
 
+@api_view(['GET'])
+def my_offers(request, user_id):
+    offers = Offer.objects.filter(user=user_id)
+    serializer = OfferSerializer(offers, many=True)
+    return Response(serializer.data)
 
+@api_view(['GET', 'POST'])
+def offer_list(request):
+    if request.method == 'GET':
+        offers = Offer.objects.all()
+        serializer = OfferSerializer(offers, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = OfferSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+def my_application(request):
+    if request.method == 'GET':
+        applications = Application.objects.all()
+        serializer = ApplicationSerializer(applications, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = ApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET', 'POST'])
+def application_list(request):
+    if request.method == 'GET':
+        user_id = request.query_params.get('user_id')
+        if user_id:
+            applications = Application.objects.filter(user=user_id)
+        else:
+            applications = Application.objects.all()
+        serializer = ApplicationSerializer(applications, many=True)
+        return Response(serializer.data)
+    
 class ProgrammeList(generics.ListCreateAPIView):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer

@@ -1,5 +1,6 @@
 import json
 from django.db import models
+from users.models import User
 
 class Programme(models.Model):
     name = models.CharField(max_length=255)
@@ -25,3 +26,24 @@ class Programme(models.Model):
 
     class Meta:
         verbose_name_plural = 'programmes'
+
+
+class Application(models.Model):
+    programme = models.ForeignKey(Programme, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    programme_name = models.CharField(max_length=255)
+    user_name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.programme_name} - {self.user_name}"
+
+class Offer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    status = models.CharField(max_length=255, default='pending')
+    university = models.CharField(max_length=255, default='University of Botswana')
+    start_date = models.DateField(default='2023-08-01')
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.application.programme.name}"
