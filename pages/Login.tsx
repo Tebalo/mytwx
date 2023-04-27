@@ -14,13 +14,11 @@ const LoginPage = () => {
     event.preventDefault();
     //alert(formData.password)
     const response = await login(formData);
-    //setResponse(response);
+    setResponse(response);
   
     if(response.success){
-      alert(response.message);
-      //router.push("/Collect");
+      router.push("/Collect");
     }else{
-      //router.push("/Collect");
       alert(response.message);
     }
   };
@@ -93,7 +91,9 @@ interface LoginData{
   username: string;
   password: string;
 }
-
+interface userName{
+  username: string;
+}
 interface ApiResponse{
   success: boolean;
   message: string;
@@ -111,5 +111,13 @@ export const login = async (data: LoginData): Promise<ApiResponse> => {
       return {success: false,message: errorMessage};
   }
 };
-
+export const getUser = async (data: userName): Promise<ApiResponse> => {
+  try{
+      const response = await axios.get('http://127.0.0.1:8000/api/users/', data);
+      return response.data;
+  }catch(e){
+      console.error(e);
+      return {success: false,message: 'User not found'};
+  }
+}
 export default LoginPage;

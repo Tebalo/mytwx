@@ -48,10 +48,10 @@ const SignupForm = () => {
       });
       if(!response.ok){
         const message = await response.text();
+        alert(message); 
         //router.push("/Login");
-        //alert(message); 
       }else{
-        alert("User registered");
+        //alert("User registered");
         router.push("/Login");
       }
     }catch(err) {
