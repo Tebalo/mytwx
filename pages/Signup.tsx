@@ -46,11 +46,12 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-    <div className="w-full px-4 py-8 mx-auto max-w-md">
+    <div className="flex flex-col items-center justify-center min-h-screen py-10 mx-56">
+    <div className="w-full px-4 py-8 mx-auto">
     <h1 className="text-3xl font-bold mb-4">Registration</h1>
     <form onSubmit={handleSubmit}>
-      <div className="mb-4">
+    <div className="flex pr-4">
+      <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
           Email
         </label>
@@ -63,7 +64,7 @@ const SignupForm = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
           First Name
         </label>
@@ -76,7 +77,7 @@ const SignupForm = () => {
           onChange={(e) => setFirstName(e.target.value)}
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
           Last Name
         </label>
@@ -89,7 +90,11 @@ const SignupForm = () => {
           onChange={(e) => setLastName(e.target.value)}
         />
       </div>
-      <div className="mb-4">
+      </div>
+
+
+      <div className="flex pr-4">
+      <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
           User Name
         </label>
@@ -103,7 +108,7 @@ const SignupForm = () => {
         />
       </div>
  
-      <div className="mb-4">
+      <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
           Password
         </label>
@@ -116,7 +121,7 @@ const SignupForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-4 mr-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherValue">
           Confirm Password
         </label>
@@ -129,7 +134,110 @@ const SignupForm = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           />
           </div>
-          <div className="flex items-center justify-between">
+      </div>
+
+
+      <div className="flex pr-4">
+      <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          Birth Date
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="email"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="firstName">
+          Candidate number
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="firstName"
+          type="text"
+          placeholder="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+      </div>
+      <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
+          Center number
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="lastName"
+          type="text"
+          placeholder="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+      </div>
+      </div>
+
+      <div className="flex pr-4">
+      <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="lastName">
+          Course preferences
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="username"
+          type="text"
+          placeholder="User Name"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+ 
+      <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          Highest qualification
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="password"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherValue">
+          Qualification year
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          </div>
+          </div>
+          
+        <div className="flex">
+        <div className="mb-4 mr-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="otherValue">
+          National ID
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          </div>
+          </div>
+          <div className="flex items-center justify-end w-40">
           <button
             type="submit"
             className="w-full px-4 py-2 text-lg font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
@@ -137,6 +245,7 @@ const SignupForm = () => {
               Sign up
             </button>
           </div>
+          
         </form>
         </div>
     </div>
