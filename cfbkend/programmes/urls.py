@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProgrammeList, ProgrammeDetail, programme_list, programme_eligible, application_list, my_application, my_offers, offer_list, offer_detail
+from .views import ProgrammeList, ProgrammeDetail, programme_list, programme_eligible, application_list, my_application, my_offers, offer_list
 
 
 urlpatterns = [
