@@ -22,8 +22,10 @@ class CustomTokenRefreshView(TokenRefreshView):
 @api_view(['GET'])
 def user(request):
     if request.method == "GET":
-        username = request.data['username']
-
+        #if 'username' not in request.data:
+            #return Response({'error': 'Username not provided'},status=status.HTTP_400_BAD_REQUEST)
+        username = request.GET.get('username', None)
+        print(username)
         # Retrieve the user object from the database
         try:
             user = User.objects.get(username=username)

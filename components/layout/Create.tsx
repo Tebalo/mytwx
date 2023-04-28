@@ -1,24 +1,16 @@
 import TopNavigation from './TopNavigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RecommendedCourses from './RecommendedCourses';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+
 const Create = () => {
     const [section, setSection] = useState(1); // initialize state to show the first section
-    const first_name = "Micah";
-    const last_name = "Krebs";
-    const studentID = "199006";
-    const nationalID = "440516214";
-    const age = "1983/09/08";
-    const verified = "Yes";
+    const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
+    const [results, setResults] = useState<ApiResponse>({success: false, message: ''});
 
-    const maths = "A";
-    const english = "B";
-    const chemistry = "B";
-    const geography = "B";
-    const history = "C";
-    const biology = "A";
-    const computer_studies = "A";
-    const social_studies = "C";
-    const music = "D";
+    const router = useRouter();
+    const username = router.query.username as string;
 
     const nextSection = () => {
         setSection(section + 1); // update state to show the next section
@@ -26,6 +18,21 @@ const Create = () => {
     const prevSection = () => {
         setSection(section - 1);
     }
+    useEffect(() => {
+        const fetchData = async () => {
+            //alert(username);
+            const response = await getUser(username);
+            //alert(response.username);
+            //console.log(response);
+            setResponse(response);
+
+            const results = await getResults(response.candidate_number, response.center_number);
+            setResults(results);
+            //console.log(results);
+        };
+        fetchData();
+    }, []);
+
     return (
         <div className='content-container'>
             <TopNavigation />
@@ -37,12 +44,12 @@ const Create = () => {
                             <Divider/>
                             
                             <div className='grid grid-cols-2 gap-4'>
-                                <Label label='First Name' value={first_name}/>
-                                <Label label='Last Name' value={last_name}/>
-                                <Label label='Student ID' value={studentID}/>
-                                <Label label='National ID' value={nationalID}/>
-                                <Label label='Date Of Birth' value={age}/>
-                                <Label label='Verified' value={verified ? "Yes":"No"}/>
+                                <Label label='First Name' value={response.first_name}/>
+                                <Label label='Last Name' value={response.last_name}/>
+                                <Label label='Candidate ID' value={response.candidate_number}/>
+                                <Label label='National ID' value={response.national_id}/>
+                                <Label label='Center Number' value={response.center_number}/>
+                                <Label label='Verified' value={response.status}/>
                             </div>
                             <div className='flex justify-end mx-96'>
                                 <button className='hover:text-2x1 text-blue-800 font-bold py-1 px-4'>Edit</button>
@@ -59,15 +66,9 @@ const Create = () => {
                             <div className='text-2xl font-bold text-blue-900 mb-2'>Your Results</div>
                             <Divider/>
                             <div className='grid grid-cols-3 gap-4'>
-                                <Label label='Maths' value={maths}/>
-                                <Label label='English Language' value={english}/>
-                                <Label label='Biology' value={biology}/>
-                                <Label label='Chemistry' value={chemistry}/>
-                                <Label label='Geography' value={geography}/>
-                                <Label label='Computer Studies' value={computer_studies}/>
-                                <Label label='Social Studies' value={social_studies}/>
-                                <Label label='History' value={history}/>
-                                <Label label='Music' value={music}/>
+                                {Object.entries(results.grades).map(([subject, grade]) => (
+                                    <Label label={subject} value={grade} />
+                                ))}
                             </div>
                             <div className='flex justify-end mt-5'>
                                 <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center mx-2' onClick={prevSection}>Prev</button>
@@ -98,7 +99,18 @@ const Create = () => {
     );
 };
 
-
+interface ApiResponse{
+    first_name: string;
+    last_name: string;
+    status: string;
+    national_id: string;
+    grades: { [s: string]: unknown; } | ArrayLike<unknown>;
+    candidate_number: String;
+    center_number: String;
+    success: boolean;
+    message: string;
+    token?: string;
+}
 const Label = ({label,value}:{label:string,value:string}) =>{
 return(
 <div className='flex items-center mb-4'>
@@ -106,5 +118,35 @@ return(
     <div className='w-2/3 text-gray-800'>{value}</div> 
 </div>)};
 const Divider = () => <hr className='border-t-2 border-gray-300 mb-2'/>;
+
+export const getUser = async (username: String): Promise<ApiResponse> => {
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/api/user?username=${username}`,{
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            //credentials: 'include',
+        });
+        const data = await response.json();
+        return data;
+    }catch(e){
+        console.error(e);
+        return {success: false,message: 'User not found'};
+    }
+  }
+// Create a function to get the user's results
+export const getResults = async (candidate_id: String,center_number: String): Promise<ApiResponse> => {
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/api/candidate?candidate_id=${candidate_id}&center_number=${center_number}`,{
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            //credentials: 'include',
+        }); 
+        const data = await response.json();
+        return data;
+    }catch(e){
+        console.error(e);
+        return {success: false,message: 'User not found'};
+    }
+}
 
 export default Create;

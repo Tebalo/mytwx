@@ -28,8 +28,8 @@ def candidate_list(request):
 @api_view(['GET'])
 def candidate(request):
     if request.method == "GET":
-        candidate_id = request.data['candidate_id']
-        center_number = request.data['center_number']
+        candidate_id = request.GET.get('candidate_id', None)
+        center_number = request.GET.get('center_number', None)
 
         # Retrieve the candidate object from the database
         try:

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-//import {login, LoginData, ApiResponse} from '../api/auth';
 import axios from 'axios';
 
 const LoginPage = () => {
@@ -17,7 +16,10 @@ const LoginPage = () => {
     setResponse(response);
   
     if(response.success){
-      router.push("/Collect");
+      router.push({
+       pathname: "/Collect",
+       query: { username: formData.username },
+      });
     }else{
       alert(response.message);
     }
@@ -91,9 +93,7 @@ interface LoginData{
   username: string;
   password: string;
 }
-interface userName{
-  username: string;
-}
+
 interface ApiResponse{
   success: boolean;
   message: string;
@@ -111,13 +111,4 @@ export const login = async (data: LoginData): Promise<ApiResponse> => {
       return {success: false,message: errorMessage};
   }
 };
-export const getUser = async (data: userName): Promise<ApiResponse> => {
-  try{
-      const response = await axios.get('http://127.0.0.1:8000/api/users/', data);
-      return response.data;
-  }catch(e){
-      console.error(e);
-      return {success: false,message: 'User not found'};
-  }
-}
 export default LoginPage;
