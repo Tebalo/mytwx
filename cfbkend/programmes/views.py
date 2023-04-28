@@ -30,7 +30,7 @@ def offer_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def my_application(request):
     if request.method == 'GET':
         applications = Application.objects.all()
@@ -46,7 +46,7 @@ def my_application(request):
 @api_view(['GET', 'POST'])
 def application_list(request):
     if request.method == 'GET':
-        user_id = request.query_params.get('user_id')
+        user_id = request.GET.get('user_id', None)
         if user_id:
             applications = Application.objects.filter(user=user_id)
         else:
@@ -67,7 +67,7 @@ class ProgrammeDetail(generics.RetrieveUpdateDestroyAPIView):
 def programme_list(request):
     if request.method == 'GET':
         programmes = Programme.objects.all()
-        data = [{'name': p.name, 'faculty': p.faculty, 'qualifying_criteria': p.qualifying_criteria, 'qualifying_points':p.qualifying_points, 'carrying_capacity':p.carrying_capacity, "number_of_admitted": p.number_of_admitted} for p in programmes]
+        data = [{'id':p.id,'name': p.name, 'faculty': p.faculty, 'qualifying_criteria': p.qualifying_criteria, 'qualifying_points':p.qualifying_points, 'carrying_capacity':p.carrying_capacity, "number_of_admitted": p.number_of_admitted} for p in programmes]
         return Response(data)
     elif request.method == 'POST':
         serializer = ProgrammeSerializer(data=request.data)

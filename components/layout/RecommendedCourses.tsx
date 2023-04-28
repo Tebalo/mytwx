@@ -8,18 +8,31 @@ interface Course {
   };
   qualifying_points: number;
 }
+
 interface CourseList{
   courses: Course[];
+  id: number
 }
 
-const CourseList = ({courses}:CourseList) => {
+const CourseList = ({courses, id}:CourseList) => {
   //const [courses, setCourses] = useState<Course[]>(coursesData);
   const [selectedFaculty, setSelectedFaculty] = useState("");
 
   const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFaculty(event.target.value);
   };
-
+  // Create a fucntion to handle the application
+  const handleApplication = async (programme:number,user:number) => {
+    const url = "http://127.0.0.1:8000/api/my-applications/";
+    const data = {programme:programme, user: user};
+    //console.log(data);
+    try {
+      const response = await apply(url, data);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const filteredCourses = selectedFaculty
     ? courses.filter((course) => course.faculty === selectedFaculty)
     : courses;
@@ -52,15 +65,29 @@ const CourseList = ({courses}:CourseList) => {
                 ))}
             </p>
             <p className='text-gray-700 mb-2'>Qualifying Points: {course.qualifying_points}</p>
-            <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600'>
+            <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600' onClick={() => handleApplication(course.id, id)}>
               Apply
-              </button>
+            </button>
           </div>
         ))}
       </div>
     </div>
   );
 };
+// Create a function that POST data to an api endpoint
+async function apply(url: string, data: any): Promise<any> {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.json();
+}
 
 export default CourseList;
 

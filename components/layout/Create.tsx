@@ -24,7 +24,7 @@ const Create = () => {
             //alert(username);
             const response = await getUser(username);
             //alert(response.username);
-            //console.log(response);
+            console.log(response);
             setResponse(response);
 
             const results = await getResults(response.candidate_number, response.center_number);
@@ -84,13 +84,13 @@ const Create = () => {
                 {section === 3 &&(
                     <section className='bg-gray-200 my-5 mx-5 shrink-0'>
                         <div className='mx-5 my-3'>
-                            <RecommendedCourses courses={courses}/>
+                            <RecommendedCourses courses={courses} id={response.id}/>
                         </div>
                     </section>
                 )}
                 <div className='mx-5 grid grid-cols-2 gap-5'>
                     <section className='bg-gray-200 h-80 my-5 bg-gray-200 px-4 py-2'>
-                        <div className='text-lg font-medium text-gray-800 mb-2'>Scholarships</div>
+                        <div className='text-lg font-medium text-gray-800 mb-2'>Applications</div>
                         <Divider/>
                     </section>
                     <section className='bg-gray-200 h-80 my-5 bg-gray-200 px-4 py-2'>
@@ -104,6 +104,7 @@ const Create = () => {
 };
 
 interface ApiResponse{
+    id: number;
     first_name: string;
     last_name: string;
     status: string;
@@ -149,13 +150,13 @@ export const getResults = async (candidate_id: String,center_number: String): Pr
         return data;
     }catch(e){
         console.error(e);
-        return {success: false,message: 'User not found'};
+        return {success: false,message: 'Results not found'};
     }
 }
 // Create a function to get program recommendations
 export const getRecommendations = async (): Promise<ApiResponse> => {
     try{
-        const response = await fetch('http://127.0.0.1:8000/api/programme-list/',{
+        const response = await fetch('http://127.0.0.1:8000/api/programme-list',{
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
             //credentials: 'include',
@@ -167,4 +168,19 @@ export const getRecommendations = async (): Promise<ApiResponse> => {
         return {success: false,message: 'Programme not found'};
     }
 }
+export const getApplications = async (id:number): Promise<ApiResponse> => {
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/api/applications?user_id=${id}`,{
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            //credentials: 'include',
+        }); 
+        const data = await response.json();
+        return data;
+    }catch(e){
+        console.error(e);
+        return {success: false,message: 'Applications not found'};
+    }
+}
+
 export default Create;
