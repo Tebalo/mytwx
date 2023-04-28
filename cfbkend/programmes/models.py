@@ -5,6 +5,7 @@ from users.models import User
 class Programme(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
+    faculty = models.CharField(max_length=255)
     qualifying_criteria = models.JSONField(default=dict)
     carrying_capacity = models.PositiveIntegerField(default=0)
     number_of_applicants = models.PositiveIntegerField(default=0)

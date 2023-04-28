@@ -16,7 +16,7 @@ class OfferSerializer(serializers.ModelSerializer):
 class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
-        fields = ('id', 'name', 'description', 'qualifying_criteria', 'carrying_capacity', 'number_of_applicants', 'created_at', 'updated_at')
+        fields = ('id', 'name', 'description', 'faculty', 'qualifying_criteria', 'carrying_capacity', 'number_of_applicants', 'created_at', 'updated_at')
 
 
 class ApplicationSerializer(serializers.ModelSerializer):

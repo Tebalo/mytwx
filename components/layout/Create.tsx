@@ -8,6 +8,7 @@ const Create = () => {
     const [section, setSection] = useState(1); // initialize state to show the first section
     const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
     const [results, setResults] = useState<ApiResponse>({success: false, message: ''});
+    const [courses, setCourses] = useState<ApiResponse>({success: false, message: ''});
 
     const router = useRouter();
     const username = router.query.username as string;
@@ -29,6 +30,9 @@ const Create = () => {
             const results = await getResults(response.candidate_number, response.center_number);
             setResults(results);
             //console.log(results);
+            const courses = await getRecommendations();
+            setCourses(courses);
+            console.log(courses);
         };
         fetchData();
     }, []);
@@ -80,7 +84,7 @@ const Create = () => {
                 {section === 3 &&(
                     <section className='bg-gray-200 my-5 mx-5 shrink-0'>
                         <div className='mx-5 my-3'>
-                            <RecommendedCourses/>
+                            <RecommendedCourses courses={courses}/>
                         </div>
                     </section>
                 )}
@@ -149,9 +153,9 @@ export const getResults = async (candidate_id: String,center_number: String): Pr
     }
 }
 // Create a function to get program recommendations
-export const getRecommendations = async (candidate_id: String,center_number: String): Promise<ApiResponse> => {
+export const getRecommendations = async (): Promise<ApiResponse> => {
     try{
-        const response = await fetch(`http://127.0.0.1:8000/api/programme-list/`,{
+        const response = await fetch('http://127.0.0.1:8000/api/programme-list/',{
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
             //credentials: 'include',
@@ -160,7 +164,7 @@ export const getRecommendations = async (candidate_id: String,center_number: Str
         return data;
     }catch(e){
         console.error(e);
-        return {success: false,message: 'User not found'};
+        return {success: false,message: 'Programme not found'};
     }
 }
 export default Create;

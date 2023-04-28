@@ -3,80 +3,17 @@ interface Course {
   id: number;
   name: string;
   faculty: string;
-  level: number;
+  qualifying_criteria: {
+    [subject: string]: string;
+  };
+  qualifying_points: number;
+}
+interface CourseList{
+  courses: Course[];
 }
 
-const coursesData: Course[] = [
-  {
-    id: 1,
-    name: "Bachelor of Accountancy",
-    faculty: "Business",
-    level: 100
-  },
-  {
-    id: 2,
-    name: "Bachelor of Business Administration(Management)",
-    faculty: "Business",
-    level: 100
-  },
-  {
-    id: 3,
-    name: "Bachelor of Finance",
-    faculty: "Business",
-    level: 100
-  },
-  {
-    id: 4,
-    name: "Bachelor of Arts",
-    faculty: "Social Sciences",
-    level: 100
-  },
-  {
-    id: 5,
-    name: "Bachelor of Laws",
-    faculty: "Social Sciences",
-    level: 100
-  },
-  {
-    id: 6,
-    name: "Bachelor of Arts in Economics",
-    faculty: "Social Sciences",
-    level: 100
-  },
-  {
-    id: 7,
-    name: "Bachelor of Medicine Bachelor of Surgery",
-    faculty: "Medicine",
-    level: 100
-  },
-  {
-    id: 8,
-    name: "Bachelor of Science (Biological Sciences)",
-    faculty: "Sciences",
-    level: 100
-  },
-  {
-    id: 9,
-    name: "Bachelor of Science (Computer Science)",
-    faculty: "Sciences",
-    level: 100
-  },
-  {
-    id: 10,
-    name: "Bachelor of Science (Computing with Finance)",
-    faculty: "Sciences",
-    level: 100
-  },
-  {
-    id: 11,
-    name: "Bachelor of Geomatics",
-    faculty: "Engineering and Technology",
-    level: 100
-  },
-];
-
-const CourseList = () => {
-  const [courses, setCourses] = useState<Course[]>(coursesData);
+const CourseList = ({courses}:CourseList) => {
+  //const [courses, setCourses] = useState<Course[]>(coursesData);
   const [selectedFaculty, setSelectedFaculty] = useState("");
 
   const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -105,6 +42,16 @@ const CourseList = () => {
         {filteredCourses.map((course) => (
           <div key={course.id} className='card p-4 bg-white rounded-lg shadow-md'>
             <h2 className='text-lg font-medium mb-4'>{course.name}</h2>
+            <p className='text-gray-700 mb-2'>Faculty: {course.faculty}</p>
+            <p className="text-gray-700 mb-2">
+              Qualifying Criteria:
+                {Object.entries(course.qualifying_criteria).map(([subject, grade]) => (
+                   <span key={subject}>
+                     {` ${subject}: ${grade}`}
+                  </span>
+                ))}
+            </p>
+            <p className='text-gray-700 mb-2'>Qualifying Points: {course.qualifying_points}</p>
             <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600'>
               Apply
               </button>
