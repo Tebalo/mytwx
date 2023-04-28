@@ -115,7 +115,7 @@ const Create = () => {
                             {Array.isArray(applications) && applications.map((application) => (
                                 <li key={application.id} className='text-lg mb-2'>
                                     <div className='flex justify-between'>
-                                        <Link href="#" className="text-blue-500 hover:text-blue-700" onClick={() => window.open(`/OfferLetter?application=${application}`, 'popup', 'width=400,height=400')}>{application.program_name}</Link>
+                                        <Link href="#" className="text-blue-500 hover:text-blue-700" onClick={() => window.open(`/OfferLetter?application=${application}`, 'popup', 'width=800,height=400')}>{application.program_name}</Link>
                                     </div>
                                 </li>
                             ))}
