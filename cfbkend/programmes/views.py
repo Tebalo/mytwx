@@ -67,7 +67,7 @@ class ProgrammeDetail(generics.RetrieveUpdateDestroyAPIView):
 def programme_list(request):
     if request.method == 'GET':
         programmes = Programme.objects.all()
-        data = [{'name': p.name, 'qualifying_criteria': p.qualifying_criteria, 'qualifying_points':p.qualifying_points} for p in programmes]
+        data = [{'name': p.name, 'faculty': p.faculty, 'qualifying_criteria': p.qualifying_criteria, 'qualifying_points':p.qualifying_points, 'carrying_capacity':p.carrying_capacity, "number_of_admitted": p.number_of_admitted} for p in programmes]
         return Response(data)
     elif request.method == 'POST':
         serializer = ProgrammeSerializer(data=request.data)

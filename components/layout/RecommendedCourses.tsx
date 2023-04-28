@@ -31,7 +31,7 @@ const CourseList = ({courses}:CourseList) => {
       <span className='text-gray-700 mr-5'>Select a faculty:</span>
         <select className='form-select block mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none' value={selectedFaculty} onChange={handleFacultyChange}>
           <option value="">All</option>
-          <option value="Sciences">Sciences</option>
+          <option value="Science">Science</option>
           <option value="Business">Business</option>
           <option value="Social Sciences">Social Sciences</option>
           <option value="Engineering and Technology">Engineering and Technology</option>
