@@ -67,7 +67,7 @@ const Create = () => {
                             <Divider/>
                             <div className='grid grid-cols-3 gap-4'>
                                 {Object.entries(results.grades).map(([subject, grade]) => (
-                                    <Label label={subject} value={grade} />
+                                    <Label key={subject} label={subject} value={grade} />
                                 ))}
                             </div>
                             <div className='flex justify-end mt-5'>
@@ -148,5 +148,19 @@ export const getResults = async (candidate_id: String,center_number: String): Pr
         return {success: false,message: 'User not found'};
     }
 }
-
+// Create a function to get program recommendations
+export const getRecommendations = async (candidate_id: String,center_number: String): Promise<ApiResponse> => {
+    try{
+        const response = await fetch(`http://127.0.0.1:8000/api/programme-list/`,{
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+            //credentials: 'include',
+        }); 
+        const data = await response.json();
+        return data;
+    }catch(e){
+        console.error(e);
+        return {success: false,message: 'User not found'};
+    }
+}
 export default Create;

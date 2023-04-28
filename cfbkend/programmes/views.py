@@ -80,7 +80,7 @@ def programme_list(request):
 @api_view(['GET'])
 def programme_eligible(request):
     if request.method == 'GET':
-        grades = request.data['grades']
+        grades = request.GET.getlist('grades')
         # create a dictionary of the qualifying criteria
         points = {'A': 8, 'B': 7, 'C': 6, 'D': 5, 'E': 4, 'F': 3}
         # loop through the best 6 grades and add the points
