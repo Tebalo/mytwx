@@ -12,10 +12,15 @@ from .serializers import OfferSerializer
 from .models import Offer
 
 @api_view(['GET'])
-def my_offers(request, user_id):
-    offers = Offer.objects.filter(user=user_id)
-    serializer = OfferSerializer(offers, many=True)
-    return Response(serializer.data)
+def my_offers(request):
+    if request.method == 'GET':
+        user_id = request.GET.get('user_id', None)
+        if user_id:
+            offers = Offer.objects.filter(user=user_id)
+        else:
+            offers = Offer.objects.all()
+        serializer = OfferSerializer(offers, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
 def offer_list(request):

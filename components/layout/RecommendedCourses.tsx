@@ -25,10 +25,15 @@ const CourseList = ({courses, id}:CourseList) => {
   const handleApplication = async (programme:number,user:number) => {
     const url = "http://127.0.0.1:8000/api/my-applications/";
     const data = {programme:programme, user: user};
+    const ourl = "http://127.0.0.1:8000/api/offers/";
+    
     //console.log(data);
     try {
       const response = await apply(url, data);
       console.log(response);
+      //const offer = {application:application, user: user};
+      //const oresponse = await apply(ourl, offer);
+      //console.log(oresponse);
     } catch (error) {
       console.error(error);
     }
@@ -88,7 +93,6 @@ async function apply(url: string, data: any): Promise<any> {
   }
   return response.json();
 }
-
 export default CourseList;
 
 

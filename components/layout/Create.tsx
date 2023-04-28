@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 import RecommendedCourses from './RecommendedCourses';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const Create = () => {
     const [section, setSection] = useState(1); // initialize state to show the first section
     const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
     const [results, setResults] = useState<ApiResponse>({success: false, message: ''});
     const [courses, setCourses] = useState<ApiResponse>({success: false, message: ''});
+    const [applications, setApplications] = useState<ApiResponse>({success: false, message: ''});
 
     const router = useRouter();
     const username = router.query.username as string;
@@ -33,6 +35,10 @@ const Create = () => {
             const courses = await getRecommendations();
             setCourses(courses);
             console.log(courses);
+
+            const applications = await getApplications(response.id);
+            setApplications(applications);
+            console.log(applications);
         };
         fetchData();
     }, []);
@@ -92,10 +98,28 @@ const Create = () => {
                     <section className='bg-gray-200 h-80 my-5 bg-gray-200 px-4 py-2'>
                         <div className='text-lg font-medium text-gray-800 mb-2'>Applications</div>
                         <Divider/>
+                        <ul>
+                            {Array.isArray(applications) && applications.map((application) => (
+                                <li key={application.id} className='text-lg mb-2'>
+                                    <div className='flex justify-between'>
+                                        <Link href="#" className="text-blue-500 hover:text-blue-700" onClick={() => window.open('/popup', 'popup', 'width=400,height=400')}>{application.program_name}</Link>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </section>
                     <section className='bg-gray-200 h-80 my-5 bg-gray-200 px-4 py-2'>
-                        <div className='text-lg font-medium text-gray-800 mb-2'>Top Offers</div>
+                        <div className='text-lg font-medium text-gray-800 mb-2'>Offers</div>
                         <Divider/>
+                        <ul>
+                            {Array.isArray(applications) && applications.map((application) => (
+                                <li key={application.id} className='text-lg mb-2'>
+                                    <div className='flex justify-between'>
+                                        <Link href="#" className="text-blue-500 hover:text-blue-700" onClick={() => window.open('/popup', 'popup', 'width=400,height=400')}>{application.program_name}</Link>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </section>
                 </div>
             </div>
