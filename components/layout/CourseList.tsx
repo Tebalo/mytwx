@@ -59,21 +59,173 @@ const CourseList = ({courses, id}:CourseList) => {
     <ReactModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
+        className="bg-white dark:bg-gray-500 rounded-lg shadow-lg p-4 w-2/3 mx-auto"	
       >
-        <h2>Add Program</h2>
+        {/*<h2 className="">Add Program</h2>*/}
         <form>
           {/* Add form fields here */}
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+            Program Name
+          </label>
+          <input
+              type="text"
+              id="name"
+              name="name"
+              className="border rounded-lg py-2 px-3 w-full"
+            />
+          </div>
+          <div className="mb-4">
+      <label
+        htmlFor="description"
+        className="block text-gray-700 font-bold mb-2"
+      >
+        Description
+      </label>
+      <textarea
+        id="description"
+        name="description"
+        rows={3}
+        className="border rounded-lg py-2 px-3 w-full"
+      ></textarea>
+    </div>
+    <div className="mb-4">
+      <label htmlFor="faculty" className="block text-gray-700 font-bold mb-2">
+        Faculty
+      </label>
+      <select
+        id="faculty"
+        name="faculty"
+        className="border rounded-lg py-2 px-3 w-full"
+      >
+        <option value="">-- Select Faculty --</option>
+        <option value="Arts">Faculty of Arts</option>
+        <option value="Science">Faculty of Science</option>
+        <option value="Engineering and Technology">Faculty of Engineering</option>
+        <option value="Education">Faculty of Education</option>
+      </select>
+    </div>
+    <div className="mb-4">
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Capacity
+      </label>
+      <input
+        type="number"
+        id="capacity"
+        name="capacity"
+        min="1"
+        className="border rounded-lg py-2 px-3 w-full"
+      />
+    </div>
+    <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Qualifying criteria
+      </label>
+    <div className="mb-4 grid grid-cols-4">
+
+    <div className="mb-1">
+      <div>
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Subject 1
+      </label>
+      <select
+        id="subject1"
+        name="capacity"
+        className="border rounded-lg py-2 px-3 w-full"
+      >
+        <option value="">-- Select Subject --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Studies">Computer Studies</option>
+
+      </select>
+      </div>
+    </div>
+
+    <div className="mb-1 px-2">
+      <div>
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Subject 3
+      </label>
+      <select
+        id="subject1"
+        name="capacity"
+        className="border rounded-lg py-2 px-3 w-full"
+      >
+        <option value="">-- Select Subject --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Studies">Computer Studies</option>
+
+      </select>
+      </div>
+    </div>
+
+    <div className="mb-1">
+      <div>
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Subject 2
+      </label>
+      <select
+        id="subject1"
+        name="capacity"
+        className="border rounded-lg py-2 px-3 w-full"
+      >
+        <option value="">-- Select Subject --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Studies">Computer Studies</option>
+
+      </select>
+      </div>
+    </div>
+
+    <div className="mb-4 pl-3">
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Total Points
+      </label>
+      <input
+        type="number"
+        id="capacity"
+        name="capacity"
+        min="1"
+        className="border rounded-lg py-2 px-3 w-full"
+      />
+    </div>
+
+    </div>
+    <div className="flex justify-end">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+      >
+        Add Program
+      </button>
+      <button
+        type="button"
+        className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg ml-4 hover:bg-gray-400"
+        onClick={() => setIsModalOpen(false)}
+      >
+        Cancel
+      </button>
+    </div>
         </form>
       </ReactModal>
-      <h2 className='text-2xl font-bold mb-4 flex m-2 text-gray-500'>Programmes</h2>
-      <Divider />
       <label className='flex mb-4 justify-end'>
       <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
               Add
       </button>
       <span className='text-gray-700 mr-5 font-medium'></span>
         <select className='form-select block mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none mx-5' value={selectedFaculty} onChange={handleFacultyChange}>
-          <option value="">All</option>
+          <option value="">All Programms</option>
           <option value="Science">Science</option>
           <option value="Business">Business</option>
           <option value="Social Sciences">Social Sciences</option>
