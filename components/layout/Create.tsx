@@ -48,7 +48,7 @@ const Create = () => {
             <TopNavigation title='Create Offers'/>
             <div className='h-screen flex flex-col bg-white dark:bg-gray-900 mx-1 my-1'>
                 {section == 1 &&( // show section 1 if section state is 1
-                    <section className='bg-gray-200 my-5 mx-5'>
+                    <section className='bg-white dark:bg-gray-500 my-5 mx-5'>
                         <div className='mx-5 my-3'>
                             <div className='text-2xl font-bold text-blue-900 mb-2'>Please Confirm Your Personal Details</div>
                             <Divider/>
@@ -62,7 +62,7 @@ const Create = () => {
                                 <Label label='Verified' value={response.status}/>
                             </div>
                             <div className='flex justify-end mx-96'>
-                                <button className='hover:text-2x1 text-blue-800 font-bold py-1 px-4'>Edit</button>
+                                <button className='hover:text-2x1 text-blue-800 py-1 px-4'>Edit</button>
                             </div>
                             <div className='flex justify-end mt-5 mb-5'>
                                 <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center' onClick={nextSection}>Next</button>
@@ -71,7 +71,7 @@ const Create = () => {
                     </section>
                 )}
                 {section === 2 &&(
-                    <section className='bg-gray-200 my-5 mx-5 shrink-0'>
+                    <section className='bg-white dark:bg-gray-500 my-5 mx-5 shrink-0'>
                         <div className='mx-5 my-3'>
                             <div className='text-2xl font-bold text-blue-900 mb-2'>Your Results</div>
                             <Divider/>
@@ -88,14 +88,14 @@ const Create = () => {
                     </section>
                 )}
                 {section === 3 &&(
-                    <section className='bg-gray-200 my-5 mx-5 shrink-0'>
+                    <section className='bg-white dark:bg-gray-500 my-5 mx-5 shrink-0'>
                         <div className='mx-5 my-3'>
                             <RecommendedCourses courses={courses} id={response.id}/>
                         </div>
                     </section>
                 )}
                 <div className='mx-5 grid grid-cols-2 gap-5'>
-                    <section className='bg-gray-200 h-80 my-5 bg-gray-200 px-4 py-2'>
+                    <section className='bg-white dark:bg-gray-500 h-80 my-5 px-4 py-2'>
                         <div className='text-lg font-medium text-gray-800 mb-2'>Applications</div>
                         <Divider/>
                         <ul>
@@ -108,7 +108,7 @@ const Create = () => {
                             ))}
                         </ul>
                     </section>
-                    <section className='bg-gray-200 h-80 my-5 bg-gray-200 px-4 py-2'>
+                    <section className='bg-white dark:bg-gray-500 h-80 my-5 px-4 py-2'>
                         <div className='text-lg font-medium text-gray-800 mb-2'>Offers</div>
                         <Divider/>
                         <ul>

@@ -41,32 +41,33 @@ const CourseList = ({courses, id}:CourseList) => {
     setIsModalOpen(true);
   };
 
-  // Create a fucntion to handle the application
-  const handleApplication = async (programme:number,user:number) => {
-    const url = "http://127.0.0.1:8000/api/my-applications/";
-    const data = {programme:programme, user: user};
-    const ourl = "http://127.0.0.1:8000/api/offers/";
-    const method = "POST";
-    //console.log(data);
+const handleEditProgram = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setIsModalOpen(true);
+  };
+  const DeleteProgram = async (id:number) => {
     try {
-      const response = await apply(url, data, method);
+      const response = await fetch(`http://127.0.0.1:8000/api/programme-list/?id=${id}`,{
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        //credentials: 'include',
+      }); 
       console.log(response);
-      //const offer = {application:application, user: user};
-      //const oresponse = await apply(ourl, offer);
-      //console.log(oresponse);
+      // Refresh the page
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
   };
-  const DeleteProgram = async (id:number) => {
-    const url = "http://127.0.0.1:8000/api/programme-list/";
-    const data = {id:id};
-    console.log(data);
-    const method = "DELETE";
-
+  const EditProgram = async (id:number) => {
     try {
-      const response = await apply(url, data, method);
+      const response = await fetch(`http://127.0.0.1:8000/api/programme-list/?id=${id}`,{
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        //credentials: 'include',
+      }); 
       console.log(response);
+      // Refresh the page
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -272,6 +273,193 @@ const CourseList = ({courses, id}:CourseList) => {
     </div>
         </form>
       </ReactModal>
+
+
+
+        <ReactModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        className="bg-white dark:bg-gray-500 rounded-lg shadow-lg p-4 w-2/3 mx-auto"	
+      >
+        {/*<h2 className="">Add Program</h2>*/}
+        <form>
+          {/* Add form fields here */}
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+            Program Name
+          </label>
+          <input
+              type="text"
+              id="name"
+              name="name"
+              className="border rounded-lg py-2 px-3 w-full"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+      <label
+        htmlFor="description"
+        className="block text-gray-700 font-bold mb-2"
+      >
+        Description
+      </label>
+      <textarea
+        id="description"
+        name="description"
+        rows={3}
+        className="border rounded-lg py-2 px-3 w-full"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      ></textarea>
+    </div>
+    <div className="mb-4">
+      <label htmlFor="faculty" className="block text-gray-700 font-bold mb-2">
+        Faculty
+      </label>
+      <select
+        id="faculty"
+        name="faculty"
+        className="border rounded-lg py-2 px-3 w-full"
+        value={faculty}
+        onChange={(e) => setFaculty(e.target.value)}
+      >
+        <option value="">-- Select Faculty --</option>
+        <option value="Arts">Faculty of Arts</option>
+        <option value="Science">Faculty of Science</option>
+        <option value="Engineering and Technology">Faculty of Engineering</option>
+        <option value="Education">Faculty of Education</option>
+      </select>
+    </div>
+    <div className="mb-4">
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Capacity
+      </label>
+      <input
+        type="number"
+        id="capacity"
+        name="capacity"
+        min="1"
+        className="border rounded-lg py-2 px-3 w-full"
+        value={capacity}
+        onChange={(e) => setCapacity(parseInt(e.target.value))}
+      />
+    </div>
+    <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Qualifying criteria
+      </label>
+    <div className="mb-4 grid grid-cols-4">
+
+    <div className="mb-1">
+      <div>
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Subject 1
+      </label>
+      <select
+        id="subject1"
+        name="capacity"
+        className="border rounded-lg py-2 px-3 w-full"
+        value={subject1}
+        onChange={(e) => setSubject1(e.target.value)}
+      >
+        <option value="">-- Select Subject --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Studies">Computer Studies</option>
+
+      </select>
+      </div>
+    </div>
+
+    <div className="mb-1 px-2">
+      <div>
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Subject 3
+      </label>
+      <select
+        id="subject1"
+        name="capacity"
+        className="border rounded-lg py-2 px-3 w-full"
+        value={subject2}
+        onChange={(e) => setSubject2(e.target.value)}
+      >
+        <option value="">-- Select Subject --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Studies">Computer Studies</option>
+
+      </select>
+      </div>
+    </div>
+
+    <div className="mb-1">
+      <div>
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Subject 2
+      </label>
+      <select
+        id="subject1"
+        name="capacity"
+        className="border rounded-lg py-2 px-3 w-full"
+        value={subject3}
+        onChange={(e) => setSubject3(e.target.value)}
+      >
+        <option value="">-- Select Subject --</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="English">English</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer Studies">Computer Studies</option>
+
+      </select>
+      </div>
+    </div>
+
+    <div className="mb-4 pl-3">
+      <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
+        Total Points
+      </label>
+      <input
+        type="number"
+        id="capacity"
+        name="capacity"
+        min="1"
+        className="border rounded-lg py-2 px-3 w-full"
+        value={totalPoints}
+        onChange={(e) => setTotalPoints(parseInt(e.target.value))}
+      />
+    </div>
+
+    </div>
+    <div className="flex justify-end">
+      <button
+        type="submit"
+        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+        onClick={AddProgram}
+      >
+        Add Program
+      </button>
+      <button
+        type="button"
+        className="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg ml-4 hover:bg-gray-400"
+        onClick={() => setIsModalOpen(false)}
+      >
+        Cancel
+      </button>
+    </div>
+        </form>
+      </ReactModal>
+
+
+
+
       <label className='flex mb-4 justify-end'>
       <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
               Add
@@ -305,7 +493,7 @@ const CourseList = ({courses, id}:CourseList) => {
             <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => DeleteProgram(course.id)}>
               Delete
             </button>
-            <button className='bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mx-10' onClick={() => handleApplication(course.id, id)}>
+            <button className='bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mx-10' onClick={handleEditProgram}>
               Edit
             </button>
           </div>
