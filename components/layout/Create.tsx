@@ -4,16 +4,11 @@ import RecommendedCourses from './RecommendedCourses';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Cookies from 'js-cookie';	
+import Cookies from 'js-cookie';
 
 const Create = () => {
     const token = Cookies.get('token');	
     const router = useRouter();
-    // chech if the user is authenticated
-    if(!token){
-        // redirect to login page if the user is not authenticated
-        router.push('/Login');
-    }
 
     const [section, setSection] = useState(1); // initialize state to show the first section
     const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
@@ -30,6 +25,7 @@ const Create = () => {
     const prevSection = () => {
         setSection(section - 1);
     }
+
     useEffect(() => {
         const fetchData = async () => {
             //alert(username);
@@ -50,6 +46,11 @@ const Create = () => {
             //console.log(applications);
         };
         fetchData();
+
+        const token = Cookies.get('token');
+        if(!token){
+            router.push('/Login');
+        }
     }, []);
 
     return (

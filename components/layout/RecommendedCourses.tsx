@@ -66,7 +66,7 @@ const CourseList = ({courses, id}:CourseList) => {
               Qualifying Criteria:
                 {Object.entries(course.qualifying_criteria).map(([subject, grade]) => (
                    <span key={subject}>
-                     {` ${subject}: ${grade}`}
+                     {` ${grade},`}
                   </span>
                 ))}
             </p>
