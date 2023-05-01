@@ -68,7 +68,7 @@ class ProgrammeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def programme_list(request):
     if request.method == 'GET':
         programmes = Programme.objects.all()
@@ -81,6 +81,23 @@ def programme_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == "DELETE":
+        programme_id = request.GET.get('id', None)
+        if programme_id:
+            programme = Programme.objects.get(id=programme_id)
+            programme.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == "PUT":
+        programme_id = request.GET.get('programme_id', None)
+        if programme_id:
+            programme = Programme.objects.get(id=programme_id)
+            serializer = ProgrammeSerializer(programme, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def programme_eligible(request):

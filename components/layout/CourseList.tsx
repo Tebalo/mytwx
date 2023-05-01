@@ -46,10 +46,10 @@ const CourseList = ({courses, id}:CourseList) => {
     const url = "http://127.0.0.1:8000/api/my-applications/";
     const data = {programme:programme, user: user};
     const ourl = "http://127.0.0.1:8000/api/offers/";
-    
+    const method = "POST";
     //console.log(data);
     try {
-      const response = await apply(url, data);
+      const response = await apply(url, data, method);
       console.log(response);
       //const offer = {application:application, user: user};
       //const oresponse = await apply(ourl, offer);
@@ -58,8 +58,30 @@ const CourseList = ({courses, id}:CourseList) => {
       console.error(error);
     }
   };
+  const DeleteProgram = async (id:number) => {
+    const url = "http://127.0.0.1:8000/api/programme-list/";
+    const data = {id:id};
+    console.log(data);
+    const method = "DELETE";
+
+    try {
+      const response = await apply(url, data, method);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const AddProgram = async () => {
     const url = "http://127.0.0.1:8000/api/programme-list/";
+    const qualifying_criteria = {subject1:subject1, subject2:subject2, subject3:subject3};
+    const data = {name:name, description:description, faculty:faculty, qualifying_criteria:qualifying_criteria, qualifying_points:totalPoints, carrying_capacity:capacity};
+    const method = "POST";
+    try{
+      const response = await apply(url, data, method);
+      console.log(response);
+  }catch(error){
+      console.error(error);
+    }
   };
   const filteredCourses = selectedFaculty
     ? courses.filter((course) => course.faculty === selectedFaculty)
@@ -251,7 +273,7 @@ const CourseList = ({courses, id}:CourseList) => {
         </form>
       </ReactModal>
       <label className='flex mb-4 justify-end'>
-      <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={AddProgram}>
+      <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
               Add
       </button>
       <span className='text-gray-700 mr-5 font-medium'></span>
@@ -274,13 +296,13 @@ const CourseList = ({courses, id}:CourseList) => {
               Pre-requisites:
                 {Object.entries(course.qualifying_criteria).map(([subject, grade]) => (
                    <span key={subject} >
-                     {` ${subject},`}
+                     {` ${grade},`}
                   </span>
                 ))}
             </p>
             <p className='text-gray-700 mb-2 font-semibold'>Pre-requisites Total Points: {course.qualifying_points}</p>
             <Divider/>
-            <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => handleApplication(course.id, id)}>
+            <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => DeleteProgram(course.id)}>
               Delete
             </button>
             <button className='bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mx-10' onClick={() => handleApplication(course.id, id)}>
@@ -295,9 +317,9 @@ const CourseList = ({courses, id}:CourseList) => {
 };
 const Divider = () => <hr className='border-t-2 border-gray-300 mb-2'/>;
 // Create a function that POST data to an api endpoint
-async function apply(url: string, data: any): Promise<any> {
+async function apply(url: string, data: any, method:string): Promise<any> {
   const response = await fetch(url, {
-    method: "POST",
+    method: method,
     headers: {
       "Content-Type": "application/json",
     },
