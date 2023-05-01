@@ -18,6 +18,8 @@ const LoginPage = () => {
     setResponse(response);
   
     if(response.success){
+      // store the user token in a cookie
+      Cookies.set('token', response.token);
       router.push({
        pathname: "/Collect",
        query: { username: formData.username },

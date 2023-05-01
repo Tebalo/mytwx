@@ -58,8 +58,9 @@ const CourseList = ({courses, id}:CourseList) => {
       </label>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {filteredCourses.map((course) => (
-          <div key={course.id} className='card p-4 bg-white rounded-lg shadow-md'>
+          <div key={course.id} className='card p-4 bg-white dark:bg-gray-500 rounded-lg shadow-md'>
             <h2 className='text-lg font-medium mb-4'>{course.name}</h2>
+            <Divider />
             <p className='text-gray-700 mb-2'>Faculty: {course.faculty}</p>
             <p className="text-gray-700 mb-2">
               Qualifying Criteria:
@@ -70,6 +71,7 @@ const CourseList = ({courses, id}:CourseList) => {
                 ))}
             </p>
             <p className='text-gray-700 mb-2'>Qualifying Points: {course.qualifying_points}</p>
+            <Divider />
             <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600' onClick={() => handleApplication(course.id, id)}>
               Apply
             </button>
@@ -79,6 +81,7 @@ const CourseList = ({courses, id}:CourseList) => {
     </div>
   );
 };
+const Divider = () => <hr className='border-t-2 border-gray-300 mb-2'/>;
 // Create a function that POST data to an api endpoint
 async function apply(url: string, data: any): Promise<any> {
   const response = await fetch(url, {

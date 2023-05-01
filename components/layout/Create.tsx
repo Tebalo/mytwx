@@ -4,15 +4,24 @@ import RecommendedCourses from './RecommendedCourses';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Cookies from 'js-cookie';	
 
 const Create = () => {
+    const token = Cookies.get('token');	
+    const router = useRouter();
+    // chech if the user is authenticated
+    if(!token){
+        // redirect to login page if the user is not authenticated
+        router.push('/Login');
+    }
+
     const [section, setSection] = useState(1); // initialize state to show the first section
     const [response, setResponse] = useState<ApiResponse>({success: false, message: ''});
     const [results, setResults] = useState<ApiResponse>({success: false, message: ''});
     const [courses, setCourses] = useState<ApiResponse>({success: false, message: ''});
     const [applications, setApplications] = useState<ApiResponse>({success: false, message: ''});
-
-    const router = useRouter();
+   
+    
     const username = router.query.username as string;
 
     const nextSection = () => {
