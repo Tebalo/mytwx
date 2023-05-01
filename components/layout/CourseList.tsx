@@ -21,6 +21,17 @@ const CourseList = ({courses, id}:CourseList) => {
   const [selectedFaculty, setSelectedFaculty] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [faculty, setFaculty] = useState("");
+  const [qualifying_criteria, setQualifying_criteria] = useState("");
+  const [qualifying_points, setQualifying_points] = useState(0);
+  const [capacity, setCapacity] = useState(0);
+  const [subject1, setSubject1] = useState("");
+  const [subject2, setSubject2] = useState("");
+  const [subject3, setSubject3] = useState("");
+  const [totalPoints, setTotalPoints] = useState(0);
+
 
   const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFaculty(event.target.value);
@@ -46,6 +57,9 @@ const CourseList = ({courses, id}:CourseList) => {
     } catch (error) {
       console.error(error);
     }
+  };
+  const AddProgram = async () => {
+    const url = "http://127.0.0.1:8000/api/programme-list/";
   };
   const filteredCourses = selectedFaculty
     ? courses.filter((course) => course.faculty === selectedFaculty)
@@ -73,6 +87,8 @@ const CourseList = ({courses, id}:CourseList) => {
               id="name"
               name="name"
               className="border rounded-lg py-2 px-3 w-full"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -87,6 +103,8 @@ const CourseList = ({courses, id}:CourseList) => {
         name="description"
         rows={3}
         className="border rounded-lg py-2 px-3 w-full"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
       ></textarea>
     </div>
     <div className="mb-4">
@@ -97,6 +115,8 @@ const CourseList = ({courses, id}:CourseList) => {
         id="faculty"
         name="faculty"
         className="border rounded-lg py-2 px-3 w-full"
+        value={faculty}
+        onChange={(e) => setFaculty(e.target.value)}
       >
         <option value="">-- Select Faculty --</option>
         <option value="Arts">Faculty of Arts</option>
@@ -115,6 +135,8 @@ const CourseList = ({courses, id}:CourseList) => {
         name="capacity"
         min="1"
         className="border rounded-lg py-2 px-3 w-full"
+        value={capacity}
+        onChange={(e) => setCapacity(parseInt(e.target.value))}
       />
     </div>
     <label htmlFor="capacity" className="block text-gray-700 font-bold mb-2">
@@ -131,6 +153,8 @@ const CourseList = ({courses, id}:CourseList) => {
         id="subject1"
         name="capacity"
         className="border rounded-lg py-2 px-3 w-full"
+        value={subject1}
+        onChange={(e) => setSubject1(e.target.value)}
       >
         <option value="">-- Select Subject --</option>
         <option value="Mathematics">Mathematics</option>
@@ -153,6 +177,8 @@ const CourseList = ({courses, id}:CourseList) => {
         id="subject1"
         name="capacity"
         className="border rounded-lg py-2 px-3 w-full"
+        value={subject2}
+        onChange={(e) => setSubject2(e.target.value)}
       >
         <option value="">-- Select Subject --</option>
         <option value="Mathematics">Mathematics</option>
@@ -175,6 +201,8 @@ const CourseList = ({courses, id}:CourseList) => {
         id="subject1"
         name="capacity"
         className="border rounded-lg py-2 px-3 w-full"
+        value={subject3}
+        onChange={(e) => setSubject3(e.target.value)}
       >
         <option value="">-- Select Subject --</option>
         <option value="Mathematics">Mathematics</option>
@@ -198,6 +226,8 @@ const CourseList = ({courses, id}:CourseList) => {
         name="capacity"
         min="1"
         className="border rounded-lg py-2 px-3 w-full"
+        value={totalPoints}
+        onChange={(e) => setTotalPoints(parseInt(e.target.value))}
       />
     </div>
 
@@ -206,6 +236,7 @@ const CourseList = ({courses, id}:CourseList) => {
       <button
         type="submit"
         className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+        onClick={AddProgram}
       >
         Add Program
       </button>
@@ -220,7 +251,7 @@ const CourseList = ({courses, id}:CourseList) => {
         </form>
       </ReactModal>
       <label className='flex mb-4 justify-end'>
-      <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
+      <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={AddProgram}>
               Add
       </button>
       <span className='text-gray-700 mr-5 font-medium'></span>
@@ -240,14 +271,14 @@ const CourseList = ({courses, id}:CourseList) => {
             <Divider/>
             <p className='text-gray-700 mb-2 font-semibold'>Faculty: {course.faculty}</p>
             <p className="text-gray-700 mb-2 font-semibold">
-              Qualifying Criteria:
+              Pre-requisites:
                 {Object.entries(course.qualifying_criteria).map(([subject, grade]) => (
                    <span key={subject} >
-                     {` ${subject}: ${grade},`}
+                     {` ${subject},`}
                   </span>
                 ))}
             </p>
-            <p className='text-gray-700 mb-2 font-semibold'>Qualifying Points: {course.qualifying_points}</p>
+            <p className='text-gray-700 mb-2 font-semibold'>Pre-requisites Total Points: {course.qualifying_points}</p>
             <Divider/>
             <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => handleApplication(course.id, id)}>
               Delete
