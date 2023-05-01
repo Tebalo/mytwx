@@ -7,12 +7,15 @@ import {
     FaSun,
 } from 'react-icons/fa';
 import useDarkMode from '../../hooks/useDarkMode';
-
-const TopNavigation = () => {
+interface TNavProps {
+    title: string;
+  }
+  
+const TopNavigation = ({title}:TNavProps) => {
     return (
         <div className='top-navigation'>
             <HashtagIcon />
-            <Title />
+            <Title title={title}/>
             <ThemeIcon />
             <Search />
             <BellIcon />
@@ -44,6 +47,6 @@ const Search = () => (
 const BellIcon = () => <FaRegBell size='24' className='top-navigation-icon' />;
 const UserCircle = () => <FaUserCircle size='24' className='top-navigation-icon' />;
 const HashtagIcon = () => <FaHashtag size='20' className='title-hashtag' />;
-const Title = () => <h5 className='title-text'>Home</h5>;
+const Title = ({title}:TNavProps) => <h5 className='title-text'>{title}</h5>;
 
 export default TopNavigation;

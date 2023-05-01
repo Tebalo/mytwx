@@ -8,7 +8,7 @@ const random = ['Student-center', 'Library'];
 
 const ChannelBar = () => {
     return (
-        <div className='channel-bar shadow-lg'>
+        <div className='channel-bar shadow-lg min-h-screen'>
             <ChannelBlock />
             <div className='channel-container'>
                 <Dropdown header='Topics' selections={topics} />

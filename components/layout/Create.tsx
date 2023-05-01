@@ -45,7 +45,7 @@ const Create = () => {
 
     return (
         <div className='content-container'>
-            <TopNavigation />
+            <TopNavigation title='Create Offers'/>
             <div className='h-screen flex flex-col bg-white dark:bg-gray-900 mx-1 my-1'>
                 {section == 1 &&( // show section 1 if section state is 1
                     <section className='bg-gray-200 my-5 mx-5'>
@@ -148,8 +148,8 @@ interface ApiResponse{
     status: string;
     national_id: string;
     grades: { [s: string]: unknown; } | ArrayLike<unknown>;
-    candidate_number: String;
-    center_number: String;
+    candidate_number: string;
+    center_number: string;
     success: boolean;
     message: string;
     token?: string;

@@ -5,7 +5,7 @@ import { BsPlusCircleFill } from 'react-icons/bs';
 const Default = () => {
     return (
         <div className='content-container'>
-            <TopNavigation />
+            <TopNavigation title='Home'/>
             <div className='content-list h-screen'>
 
             </div>
