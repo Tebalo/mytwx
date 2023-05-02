@@ -33,22 +33,37 @@ const Create = () => {
             //console.log(cachedResponse);
             if(cachedResponse){
                 setResponse(JSON.parse(cachedResponse));
-                console.log(response);
             }else{
                 const response = await getUser(username);
                 setResponse(response);
                 localStorage.setItem('username', JSON.stringify(response));
             }
-            
-            const results = await getResults(response.candidate_number, response.center_number);
-            setResults(results);
+            const cachedResults = localStorage.getItem('results'+'username');
+            if(cachedResults){
+                setResults(JSON.parse(cachedResults));
+            }else{
+                const results = await getResults(response.candidate_number, response.center_number);
+                setResults(results);
+                localStorage.setItem('results'+'username', JSON.stringify(results));
+            }
             //console.log(results);
-            const courses = await getRecommendations();
-            setCourses(courses);
+            const cachedCourses = localStorage.getItem('courses'+'username');
+            if(cachedCourses){
+                setCourses(JSON.parse(cachedCourses));
+            }else{
+                const courses = await getRecommendations();
+                setCourses(courses);
+                localStorage.setItem('courses'+'username', JSON.stringify(courses));
+            }
             //console.log(courses);
-
-            const applications = await getApplications(response.id);
-            setApplications(applications);
+            const cachedApplications = localStorage.getItem('applications'+'username');
+            if(cachedApplications){
+                setApplications(JSON.parse(cachedApplications));
+            }else{
+                const applications = await getApplications(response.id);
+                setApplications(applications);
+                localStorage.setItem('applications'+'username', JSON.stringify(applications));
+            }
             //console.log(applications);
         };
         fetchData();
@@ -120,7 +135,7 @@ const Create = () => {
                             {Array.isArray(applications) && applications.map((application) => (
                                 <li key={application.id} className='text-lg mb-2'>
                                     <div className='flex justify-between'>
-                                        <Link href="#" className="text-blue-500 hover:text-blue-700" onClick={() => window.open('/OfferLetter', 'popup', 'width=400,height=400')}>{application.program_name}</Link>
+                                        <Link href="#" className="text-gray-700 hover:text-blue-700" onClick={() => window.open('/OfferLetter', 'popup', 'width=400,height=400')}>{application.program_name}</Link>
                                     </div>
                                 </li>
                             ))}
@@ -133,7 +148,7 @@ const Create = () => {
                             {Array.isArray(applications) && applications.map((application) => (
                                 <li key={application.id} className='text-lg mb-2'>
                                     <div className='flex justify-between'>
-                                        <Link href="#" className="text-blue-500 hover:text-blue-700" 
+                                        <button  className="text-gray-700 hover:bg-green-700 bg-slate-600 w-full" 
                                         onClick={() => {
                                             const serializedApplication = JSON.stringify(application);
                                             console.log(serializedApplication);
@@ -147,7 +162,7 @@ const Create = () => {
                                           }}
                                         >
                                                     {application.program_name}
-                                            </Link>
+                                            </button>
                                     </div>
                                 </li>
                             ))}
