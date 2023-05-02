@@ -29,11 +29,17 @@ const Create = () => {
     useEffect(() => {
         const fetchData = async () => {
             //alert(username);
-            const response = await getUser(username);
-            //alert(response.username);
-            //console.log(response);
-            setResponse(response);
-
+            const cachedResponse = localStorage.getItem('username');
+            //console.log(cachedResponse);
+            if(cachedResponse){
+                setResponse(JSON.parse(cachedResponse));
+                console.log(response);
+            }else{
+                const response = await getUser(username);
+                setResponse(response);
+                localStorage.setItem('username', JSON.stringify(response));
+            }
+            
             const results = await getResults(response.candidate_number, response.center_number);
             setResults(results);
             //console.log(results);
@@ -48,10 +54,11 @@ const Create = () => {
         fetchData();
 
         const token = Cookies.get('token');
+        console.log(token);
         if(!token){
             router.push('/Login');
         }
-    }, []);
+    }, [router]);
 
     return (
         <div className='content-container'>
@@ -86,10 +93,11 @@ const Create = () => {
                             <div className='text-2xl font-bold text-blue-900 mb-2'>Your Results</div>
                             <Divider/>
                             <div className='grid grid-cols-3 gap-4'>
-                                {Object.entries(results.grades).map(([subject, grade]) => (
-                                    <Label key={subject} label={subject} value={grade} />
-                                ))}
+                                {results && Object.entries(results.grades).map(([subject, grade]) => (
+                                <Label key={subject} label={subject} value={grade} />
+                                    ))}
                             </div>
+
                             <div className='flex justify-end mt-5'>
                                 <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center mx-2' onClick={prevSection}>Prev</button>
                                 <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center' onClick={nextSection}>Submit</button>
