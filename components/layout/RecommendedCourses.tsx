@@ -66,9 +66,9 @@ const CourseList = ({courses, id}:CourseList) => {
       console.error(error);
     }
   };
+    // Get user from local storage
+    const user = localStorage.getItem('user');
   useEffect(() => {
-  // Get user from local storage
-  const user = localStorage.getItem('user');
   setCandidate(JSON.parse(user));
   console.log('candidate/',candidate);
   }, []);
