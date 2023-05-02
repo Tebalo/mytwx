@@ -4,7 +4,6 @@ import RecommendedCourses from './RecommendedCourses';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
 
 const Create = () => {
     const token = Cookies.get('token');	

@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 require('text-encoder');
-import Cookies from 'js-cookie';
 
 const LoginPage = () => {
 
@@ -18,8 +17,9 @@ const LoginPage = () => {
     setResponse(response);
   
     if(response.success){
-      // store the user token in a cookie
-      Cookies.set('token', response.token);
+      localStorage.setItem('token', response.token!);
+      const user = await getUser(formData.username);
+      localStorage.setItem('user', JSON.stringify(user));
       router.push({
        pathname: "/Collect",
        query: { username: formData.username },
@@ -103,7 +103,23 @@ interface ApiResponse{
   message: string;
   token?: string;
 }
-
+interface User{
+  username: string;
+}
+export const getUser = async (username: String): Promise<User> => {
+  try{
+      const response = await fetch(`http://127.0.0.1:8000/api/user?username=${username}`,{
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+          //credentials: 'include',
+      });
+      const data = await response.json();
+      return data;
+  }catch(e){
+      console.error(e);
+      return {username: ''};
+  }
+}
 export const login = async (data: LoginData): Promise<ApiResponse> => {
   try{
     //alert(data)
