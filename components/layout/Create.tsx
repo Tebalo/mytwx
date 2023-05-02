@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const Create = () => {
-    const token = Cookies.get('token');	
     const router = useRouter();
 
     const [section, setSection] = useState(1); // initialize state to show the first section
@@ -67,8 +66,7 @@ const Create = () => {
         };
         fetchData();
 
-        const token = Cookies.get('token');
-        console.log(token);
+        const token = localStorage.getItem('token');
         if(!token){
             router.push('/Login');
         }
@@ -77,7 +75,7 @@ const Create = () => {
     return (
         <div className='content-container'>
             <TopNavigation title='Create Offers'/>
-            <div className='h-screen flex flex-col bg-white dark:bg-gray-900 mx-1 my-1'>
+            <div className='h-screen flex flex-col bg-white dark:bg-gray-700 mx-1 my-1'>
                 {section == 1 &&( // show section 1 if section state is 1
                     <section className='bg-white dark:bg-gray-500 my-5 mx-5'>
                         <div className='mx-5 my-3'>

@@ -1,22 +1,14 @@
 import { FaSearch, FaHashtag, FaRegBell, FaUserCircle, FaMoon, FaSun } from 'react-icons/fa';
 import useDarkMode from '../../hooks/useDarkMode';
 import { useRouter } from 'next/router';
+import {useState} from 'react';
 
 interface TNavProps {
   title: string;
 }
 
 const TopNavigation = ({ title }: TNavProps) => {
-  const router = useRouter();
   
-  const handleLogout = () => {
-    // Clear the session or token from local storage
-    localStorage.removeItem('session');
-    
-    // Redirect the user to the login page
-    router.push('/login');
-  };
-
   return (
     <div className='top-navigation'>
       <HashtagIcon />
@@ -25,7 +17,6 @@ const TopNavigation = ({ title }: TNavProps) => {
       <Search />
       <BellIcon />
       <UserCircle />
-      <Logout handleLogout={handleLogout} />
     </div>
   );
 };
@@ -51,7 +42,39 @@ const Search = () => (
   </div>
 );
 const BellIcon = () => <FaRegBell size='24' className='top-navigation-icon' />;
-const UserCircle = () => <FaUserCircle size='24' className='top-navigation-icon' />;
+const UserCircle = () => {
+    const [showOverlay, setShowOverlay] = useState(false);
+    const router = useRouter();
+    const handleLogout = () => {
+        // Clear the session or token from local storage
+        localStorage.removeItem('token');
+        
+        // Redirect the user to the login page
+        router.push('/Login');
+      };
+  
+    return (
+      <div className="relative">
+        <FaUserCircle
+          size="24"
+          className="top-navigation-icon cursor-pointer"
+          onClick={() => setShowOverlay(true)}
+        />
+        {showOverlay && (
+          <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10">
+            <div className="py-1">
+              <button
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
 const HashtagIcon = () => <FaHashtag size='20' className='title-hashtag' />;
 const Title = ({ title }: TNavProps) => <h5 className='title-text'>{title}</h5>;
 

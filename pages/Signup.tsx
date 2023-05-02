@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {useRouter} from "next/router";
+import Link from 'next/link';
 
 const SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -63,8 +64,8 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-10 mx-56">
-    <div className="w-full px-4 py-8 mx-auto">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-500">
+    <div className="w-full px-4 py-8 mx-auto dark:bg-gray-500 mx-56">
     <h1 className="text-3xl font-bold mb-4">Registration</h1>
     <form onSubmit={handleSubmit}>
     <div className="flex pr-4">
@@ -272,13 +273,15 @@ const SignupForm = () => {
           <div className="flex items-center justify-end w-40">
           <button
             type="submit"
-            className="w-full px-4 py-2 text-lg font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 text-lg font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
               Sign up
             </button>
           </div>
-          
         </form>
+        <Link href="/Login" className="text-blue-600 hover:text-blue-700">
+            Sign in
+          </Link>
         </div>
     </div>
       );

@@ -33,7 +33,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-white dark:bg-gray-700">
       <div className="w-full px-4 py-8 mx-auto max-w-md">
         <h1 className="text-3xl font-bold mb-4">Login</h1>
         <form onSubmit={handleSubmit}>
@@ -47,7 +47,7 @@ const LoginPage = () => {
               name="username"
               value={formData.username}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
             />
           </div>
@@ -61,7 +61,7 @@ const LoginPage = () => {
               name="password"
               value={formData.password}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
               required
             />
           </div>
@@ -72,20 +72,20 @@ const LoginPage = () => {
             </div>
             <div>
               <Link href="/forgot-password">
-                <h1 className="text-purple-600 hover:text-purple-700">Forgot Password?</h1>
+                <h1 className="text-blue-600 hover:text-blue-700">Forgot Password?</h1>
               </Link>
             </div>
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 text-lg font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
+            className="w-full px-4 py-2 text-lg font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             Login
           </button>
         </form>
         <p className="mt-4 text-sm">
           Don't have an account?{' '}
-          <Link href="/Signup" className="text-purple-600 hover:text-purple-700">
+          <Link href="/Signup" className="text-blue-600 hover:text-blue-700">
             Sign up
           </Link>
         </p>

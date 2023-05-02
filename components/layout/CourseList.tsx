@@ -91,7 +91,7 @@ const handleEditProgram = (event: React.MouseEvent<HTMLButtonElement, MouseEvent
   return (
     <div className='content-container'>
     <TopNavigation title='Programmes'/>
-    <div className='min-h-screen bg-white dark:bg-gray-900 m-1'>
+    <div className='min-h-screen bg-white dark:bg-gray-700 m-1'>
       
     <ReactModal
         isOpen={isModalOpen}
@@ -456,9 +456,6 @@ const handleEditProgram = (event: React.MouseEvent<HTMLButtonElement, MouseEvent
     </div>
         </form>
       </ReactModal>
-
-
-
 
       <label className='flex mb-4 justify-end'>
       <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
