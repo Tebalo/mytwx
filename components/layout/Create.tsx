@@ -15,8 +15,7 @@ const Create = () => {
     const [applications, setApplications] = useState<ApiResponse>({success: false, message: ''});
    
     
-    const username = router.query.username as string;
-
+    const { username, user } = router.query;
     const nextSection = () => {
         setSection(section + 1); // update state to show the next section
     }
@@ -26,52 +25,51 @@ const Create = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            //alert(username);
-            const cachedResponse = localStorage.getItem('username');
-            //console.log(cachedResponse);
-            if(cachedResponse){
-                setResponse(JSON.parse(cachedResponse));
-            }else{
-                const response = await getUser(username);
-                setResponse(response);
-                localStorage.setItem('username', JSON.stringify(response));
-            }
-            const cachedResults = localStorage.getItem('results'+'username');
-            if(cachedResults){
-                setResults(JSON.parse(cachedResults));
-            }else{
-                const results = await getResults(response.candidate_number, response.center_number);
-                setResults(results);
-                localStorage.setItem('results'+'username', JSON.stringify(results));
-            }
-            //console.log(results);
-            const cachedCourses = localStorage.getItem('courses'+'username');
-            if(cachedCourses){
-                setCourses(JSON.parse(cachedCourses));
-            }else{
-                const courses = await getRecommendations();
-                setCourses(courses);
-                localStorage.setItem('courses'+'username', JSON.stringify(courses));
-            }
-            //console.log(courses);
-            const cachedApplications = localStorage.getItem('applications'+'username');
-            if(cachedApplications){
-                setApplications(JSON.parse(cachedApplications));
-            }else{
-                const applications = await getApplications(response.id);
-                setApplications(applications);
-                localStorage.setItem('applications'+'username', JSON.stringify(applications));
-            }
-            //console.log(applications);
+          if (user) {
+            setResponse(JSON.parse(user));
+          }
         };
+      
         fetchData();
+      }, [user]);
+      
+      useEffect(() => {
+        const fetchResults = async () => {
+          if (response.candidate_number && response.center_number) {
+            const results = await getResults(response.candidate_number, response.center_number);
+            setResults(results);
+            localStorage.setItem('results' + response.username, JSON.stringify(results));
+          } else {
+            console.log('candidate_number or center_number is undefined');
+          }
+        };
+      
+        fetchResults();
+        fetchAndSetData();
+      }, [response.candidate_number, response.center_number]);
 
-        const token = localStorage.getItem('token');
-        if(!token){
-            router.push('/Login');
+      const fetchAndSetData = async () => {
+        const cachedCourses = localStorage.getItem('courses' + 'username');
+      
+        if (cachedCourses) {
+          setCourses(JSON.parse(cachedCourses));
+        } else {
+          const courses = await getRecommendations();
+          setCourses(courses);
+          localStorage.setItem('courses' + 'username', JSON.stringify(courses));
         }
-    }, [router]);
-
+        console.log(courses);
+        const cachedApplications = localStorage.getItem('applications' + 'username');
+      
+        if (cachedApplications) {
+          setApplications(JSON.parse(cachedApplications));
+        } else {
+          const applications = await getApplications(response.id);
+          setApplications(applications);
+          localStorage.setItem('applications' + 'username', JSON.stringify(applications));
+        }
+      };
+      
     return (
         <div className='content-container'>
             <TopNavigation title='Create Offers'/>
@@ -99,24 +97,28 @@ const Create = () => {
                         </div>
                     </section>
                 )}
-                {section === 2 &&(
-                    <section className='bg-white dark:bg-gray-500 my-5 mx-5 shrink-0'>
-                        <div className='mx-5 my-3'>
-                            <div className='text-2xl font-bold text-blue-900 mb-2'>Your Results</div>
-                            <Divider/>
-                            <div className='grid grid-cols-3 gap-4'>
-                                {results && Object.entries(results.grades).map(([subject, grade]) => (
-                                <Label key={subject} label={subject} value={grade} />
-                                    ))}
-                            </div>
+{section === 2 &&(
+    <section className='bg-white dark:bg-gray-500 my-5 mx-5 shrink-0'>
+        <div className='mx-5 my-3'>
+            <div className='text-2xl font-bold text-blue-900 mb-2'>Your Results</div>
+            <Divider/>
+            {Object.keys(results?.grades || {}).length > 0 ? (
+                <div className='grid grid-cols-3 gap-4'>
+                    {Object.entries(results.grades).map(([subject, grade]) => (
+                        <Label key={subject} label={subject} value={grade} />
+                    ))}
+                </div>
+            ) : (
+                <div>Grades not found</div>
+            )}
+            <div className='flex justify-end mt-5'>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center mx-2' onClick={prevSection}>Prev</button>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center' onClick={nextSection}>Submit</button>
+            </div>
+        </div>
+    </section>
+)}
 
-                            <div className='flex justify-end mt-5'>
-                                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center mx-2' onClick={prevSection}>Prev</button>
-                                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center' onClick={nextSection}>Submit</button>
-                            </div>
-                        </div>
-                    </section>
-                )}
                 {section === 3 &&(
                     <section className='bg-white dark:bg-gray-500 my-5 mx-5 shrink-0'>
                         <div className='mx-5 my-3'>

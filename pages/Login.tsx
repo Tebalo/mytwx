@@ -19,10 +19,11 @@ const LoginPage = () => {
     if(response.success){
       localStorage.setItem('token', response.token!);
       const user = await getUser(formData.username);
+      console.log(user);
       localStorage.setItem('user', JSON.stringify(user));
       router.push({
        pathname: "/Collect",
-       query: { username: formData.username },
+       query: { username: formData.username, user: JSON.stringify(user) },
       });
     }else{
       alert(response.message);

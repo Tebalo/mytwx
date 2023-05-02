@@ -48,7 +48,7 @@ const UserCircle = () => {
     const handleLogout = () => {
         // Clear the session or token from local storage
         localStorage.removeItem('token');
-        
+        localStorage.removeItem('user');
         // Redirect the user to the login page
         router.push('/Login');
       };

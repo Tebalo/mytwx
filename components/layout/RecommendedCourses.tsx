@@ -3,20 +3,48 @@ interface Course {
   id: number;
   name: string;
   faculty: string;
-  qualifying_criteria: {
+  qualifying_criteria: QualifyingCriteria;
+  qualifying_points: number;
+  carrying_capacity: number;
+  number_of_admitted: number;
+}
+interface QualifyingCriteria {
+  subject1: string;
+  subject2: string;
+  subject3: string;
+}
+interface Candidate {
+  id: number;
+  name: string;
+  candidate_id: string;
+  center_number: string;
+  email: string;
+  phone_number: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  grades: {
     [subject: string]: string;
   };
-  qualifying_points: number;
 }
-
 interface CourseList{
   courses: Course[];
   id: number
 }
+const SCALE = {
+  A: 8,
+  B: 7,
+  C: 6,
+  D: 5,
+  E: 4,
+  F: 3,
+};
 
 const CourseList = ({courses, id}:CourseList) => {
   //const [courses, setCourses] = useState<Course[]>(coursesData);
   const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [candidate, setCandidate] = useState<Candidate | null>(null);
+  const [filteredProgrammes, setFilteredProgrammes] = useState<Course[]>([]);
 
   const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFaculty(event.target.value);
@@ -38,6 +66,12 @@ const CourseList = ({courses, id}:CourseList) => {
       console.error(error);
     }
   };
+  useEffect(() => {
+  // Get user from local storage
+  const user = localStorage.getItem('user');
+  setCandidate(JSON.parse(user));
+  console.log('candidate/',candidate);
+  }, []);
   const filteredCourses = selectedFaculty
     ? courses.filter((course) => course.faculty === selectedFaculty)
     : courses;
@@ -66,7 +100,7 @@ const CourseList = ({courses, id}:CourseList) => {
               Qualifying Criteria:
                 {Object.entries(course.qualifying_criteria).map(([subject, grade]) => (
                    <span key={subject}>
-                     {` ${grade},`}
+                     {` ${grade}`}
                   </span>
                 ))}
             </p>
