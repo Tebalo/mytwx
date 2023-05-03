@@ -467,9 +467,9 @@ const handleEditProgram = (event: React.MouseEvent<HTMLButtonElement, MouseEvent
       </ReactModal>
 
       <label className='flex mb-4 justify-end'>
-      <button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
+      {response.status && (<button className='bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mx-10' onClick={handleAddProgram}>
               Add
-      </button>
+      </button>)}
       <span className='text-gray-700 mr-5 font-medium'></span>
         <select className='form-select block mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 focus:outline-none mx-5' value={selectedFaculty} onChange={handleFacultyChange}>
           <option value="">All Programms</option>
