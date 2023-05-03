@@ -31,8 +31,17 @@ const CourseList = ({courses, id}:CourseList) => {
   const [subject2, setSubject2] = useState("");
   const [subject3, setSubject3] = useState("");
   const [totalPoints, setTotalPoints] = useState(0);
+  const [response, setResponse] = useState<Course[]>([]);
 
-
+  const user = localStorage.getItem('user');
+  useEffect(() => {
+    const fetchData = async () => {
+      
+      setResponse(JSON.parse(user));
+    }
+    fetchData();
+  }, []);
+  console.log("programmes",response);
   const handleFacultyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFaculty(event.target.value);
   };
@@ -487,12 +496,16 @@ const handleEditProgram = (event: React.MouseEvent<HTMLButtonElement, MouseEvent
             </p>
             <p className='text-gray-700 mb-2 font-semibold'>Pre-requisites Total Points: {course.qualifying_points}</p>
             <Divider/>
-            <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => DeleteProgram(course.id)}>
+            {/*Show div when response.status is true*/}
+            {response.is_staff && ( <div>
+              <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => DeleteProgram(course.id)}>
               Delete
-            </button>
-            <button className='bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mx-10' onClick={handleEditProgram}>
+               </button>
+              <button className='bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mx-10' onClick={handleEditProgram}>
               Edit
-            </button>
+              </button></div> )}   
+            <div/>
+            
           </div>
         ))}
       </div>
