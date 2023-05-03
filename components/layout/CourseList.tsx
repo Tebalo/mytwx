@@ -495,9 +495,10 @@ const handleEditProgram = (event: React.MouseEvent<HTMLButtonElement, MouseEvent
                 ))}
             </p>
             <p className='text-gray-700 mb-2 font-semibold'>Pre-requisites Total Points: {course.qualifying_points}</p>
-            <Divider/>
+            
             {/*Show div when response.status is true*/}
             {response.is_staff && ( <div>
+              <Divider/>
               <button className='text-white px-4 py-2 rounded-lg hover:bg-red-600 bg-red-700' onClick={() => DeleteProgram(course.id)}>
               Delete
                </button>
