@@ -8,7 +8,7 @@ class User(AbstractUser):
     candidate_number = models.CharField(max_length=255, blank=True, null=True)
     national_id = models.CharField(max_length=255, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
-    status = models.CharField(max_length=255, default='pending')
+    status = models.CharField(max_length=255, default='verified')
     highest_qualification = models.CharField(max_length=255, blank=True, null=True)
     highest_qualification_year = models.CharField(max_length=255, blank=True, null=True)
     course_preferences = models.JSONField(default=dict)

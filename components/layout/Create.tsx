@@ -26,7 +26,11 @@ const Create = () => {
     useEffect(() => {
         const fetchData = async () => {
           if (user) {
+            console.log('you',user);
             setResponse(JSON.parse(user));
+          }else{            
+                const you = localStorage.getItem('user');
+                setResponse(you);
           }
         };
       
@@ -38,7 +42,7 @@ const Create = () => {
           if (response.candidate_number && response.center_number) {
             const results = await getResults(response.candidate_number, response.center_number);
             setResults(results);
-            localStorage.setItem('results' + response.username, JSON.stringify(results));
+            localStorage.setItem('results', JSON.stringify(results));
           } else {
             console.log('candidate_number or center_number is undefined');
           }
@@ -49,24 +53,20 @@ const Create = () => {
       }, [response.candidate_number, response.center_number]);
 
       const fetchAndSetData = async () => {
-        const cachedCourses = localStorage.getItem('courses' + 'username');
-      
-        if (cachedCourses) {
-          setCourses(JSON.parse(cachedCourses));
-        } else {
+
           const courses = await getRecommendations();
           setCourses(courses);
-          localStorage.setItem('courses' + 'username', JSON.stringify(courses));
-        }
-        console.log(courses);
-        const cachedApplications = localStorage.getItem('applications' + 'username');
+          localStorage.setItem('courses', JSON.stringify(courses));
+
+        //console.log(courses);
+        const cachedApplications = localStorage.getItem('applications');
       
         if (cachedApplications) {
           setApplications(JSON.parse(cachedApplications));
         } else {
           const applications = await getApplications(response.id);
           setApplications(applications);
-          localStorage.setItem('applications' + 'username', JSON.stringify(applications));
+          localStorage.setItem('applications', JSON.stringify(applications));
         }
       };
       

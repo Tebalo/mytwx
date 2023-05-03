@@ -29,15 +29,15 @@ interface Candidate {
 }
 interface CourseList{
   courses: Course[];
-  id: number
+  id: number;
 }
 const SCALE = {
-  A: 8,
-  B: 7,
-  C: 6,
-  D: 5,
-  E: 4,
-  F: 3,
+  "A": 8,
+  "B": 7,
+  "C": 6,
+  "D": 5,
+  "E": 4,
+  "F": 3,
 };
 
 const CourseList = ({courses, id}:CourseList) => {
@@ -58,7 +58,7 @@ const CourseList = ({courses, id}:CourseList) => {
     //console.log(data);
     try {
       const response = await apply(url, data);
-      console.log(response);
+      //console.log(response);
       //const offer = {application:application, user: user};
       //const oresponse = await apply(ourl, offer);
       //console.log(oresponse);
@@ -68,10 +68,37 @@ const CourseList = ({courses, id}:CourseList) => {
   };
     // Get user from local storage
     const user = localStorage.getItem('user');
+    // Get candidate from local storage
+    //const cand = localStorage.getItem('results');
+  
   useEffect(() => {
-  setCandidate(JSON.parse(user));
-  console.log('candidate/',candidate);
+    console.log(JSON.parse(user).username);
+    console.log('results',JSON.parse(user).username);
+    setCandidate(JSON.parse(localStorage.getItem('results')));
+    //console.log("You",candidate);
   }, []);
+
+  useEffect(() => {
+    // Filter programmes based on candidate grades
+    const filterProgrammes = () => {
+      const filtered = courses.filter((programme) => {
+        const { subject1, subject2, subject3 } = programme.qualifying_criteria;
+        console.log("Scale",SCALE[candidate?.grades[subject1] || '']);
+        const totalPoints =
+          SCALE[candidate?.grades[subject1] || ''] +
+          SCALE[candidate?.grades[subject2] || ''] +
+          SCALE[candidate?.grades[subject3] || ''];
+        return totalPoints >= programme.qualifying_points;
+      });
+      setFilteredProgrammes(filtered);
+      console.log("Filtered",filteredProgrammes);
+    };
+
+    if (candidate && courses.length > 0) {
+      filterProgrammes();
+    }
+  }, [candidate, courses]);
+
   const filteredCourses = selectedFaculty
     ? courses.filter((course) => course.faculty === selectedFaculty)
     : courses;
